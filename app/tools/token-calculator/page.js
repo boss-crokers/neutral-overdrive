@@ -23,6 +23,14 @@ const MODELS = [
     contextWindow: "2M tokens"
   },
   {
+    id: "claude-3.5-haiku",
+    name: "Claude 3.5 Haiku",
+    provider: "Anthropic",
+    inputCostPerMillion: 1.00,
+    outputCostPerMillion: 5.00,
+    contextWindow: "200k tokens"
+  },
+  {
     id: "claude-3.5-sonnet",
     name: "Claude 3.5 Sonnet",
     provider: "Anthropic",
@@ -31,11 +39,19 @@ const MODELS = [
     contextWindow: "200k tokens"
   },
   {
+    id: "gpt-4o-mini",
+    name: "GPT-4o Mini",
+    provider: "OpenAI",
+    inputCostPerMillion: 0.15,
+    outputCostPerMillion: 0.60,
+    contextWindow: "128k tokens"
+  },
+  {
     id: "gpt-4o",
     name: "GPT-4o",
     provider: "OpenAI",
-    inputCostPerMillion: 5.00,
-    outputCostPerMillion: 15.00,
+    inputCostPerMillion: 2.50,
+    outputCostPerMillion: 10.00,
     contextWindow: "128k tokens"
   }
 ];
