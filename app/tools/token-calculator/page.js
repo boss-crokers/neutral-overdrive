@@ -143,11 +143,14 @@ export default function TokenCalculator() {
                 Based on {runsPerMonth.toLocaleString()} calls with the selected token mix.
               </p>
             </div>
-            <div className="mt-6 border-t border-[var(--border)] pt-6 text-[13px] leading-6 text-[var(--muted)]">
+            <div className="mt-6 border-t border-[var(--border)] pt-6 text-[12px] leading-relaxed text-[var(--muted)]">
               <p>
-                Estimates exclude cached-input discounts, batch/flex/priority modes, audio, video, image output, grounding, tools, tax, and regional multipliers.
+                Estimates exclude cached-input discounts, batch/flex/priority modes, grounding, tools, tax, and regional multipliers.
               </p>
-              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+              <p className="mt-3">
+                * Disclaimer: Calculations are estimates only based on standard API list rates. Neutral Overdrive is not liable for cloud provider billing spikes, service interruptions, or software outcomes.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[13px]">
                 {MODEL_SOURCES.map((source) => (
                   <a
                     key={source.href}

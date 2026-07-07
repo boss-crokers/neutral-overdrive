@@ -81,8 +81,8 @@ export default function ResourcesPage() {
             </section>
           ))}
         </div>
-        <p className="mt-10 max-w-[74ch] border-t border-[var(--border)] pt-6 text-[13px] leading-6 text-[var(--muted)]">
-          Some external links may become affiliate links. Recommendations should remain useful without a purchase, and paid placement belongs on the advertising page.
+        <p className="mt-10 max-w-[74ch] border-t border-[var(--border)] pt-6 text-[12px] leading-relaxed text-[var(--muted)]">
+          <strong>Affiliate Disclosure:</strong> Some external links on this page are affiliate referral links. If you click through and create an account or make a purchase, we may receive a commission at no additional cost to you. We only recommend tools that we actively test and trust in our production workflows.
         </p>
       </section>
     </div>

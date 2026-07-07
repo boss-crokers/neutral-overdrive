@@ -89,6 +89,11 @@ export default function TemplatesPage() {
             </article>
           ))}
         </div>
+        
+        {/* Legal Software Disclaimer */}
+        <p className="mt-12 text-[11px] leading-relaxed text-[var(--muted)] max-w-4xl border-t border-[var(--border)] pt-6">
+          * Software Disclaimer: All downloadable scripts, parameters, and prompts are provided &quot;as is&quot; without warranties of any kind. Neutral Overdrive does not guarantee model performance, compatibility with local host configurations, or API stability. Users are solely responsible for testing files in a sandbox environment and securing their own API keys.
+        </p>
       </section>
     </div>
   );
