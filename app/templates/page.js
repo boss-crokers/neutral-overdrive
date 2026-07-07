@@ -13,6 +13,7 @@ const templates = [
     description:
       "A starter loop for structured outputs, tool callbacks, and fallback handling in Gemini workflows.",
     price: "Free",
+    originalPrice: "$19.99",
     href: "/downloads/gemini-agent-loop.zip",
     detail: "Includes Python scripts, JSON schema helpers, and system prompt examples.",
   },
@@ -22,6 +23,7 @@ const templates = [
     description:
       "Camera, lens, lighting, and aspect-ratio formulas for controlled image generation.",
     price: "Free",
+    originalPrice: "$9.99",
     href: "/downloads/midjourney-photorealism-vault.md",
     detail: "Includes 50 prompt patterns and parameter notes.",
   },
@@ -65,7 +67,16 @@ export default function TemplatesPage() {
                 <p className="mt-4 text-[14px] text-[var(--muted)]">{template.detail}</p>
               </div>
               <div className="flex flex-col items-start gap-4 md:items-end">
-                <p className="font-mono text-[20px] font-bold">{template.price}</p>
+                <div className="flex items-baseline gap-2">
+                  {template.originalPrice && (
+                    <span className="font-mono text-[14px] text-[var(--muted)] line-through">
+                      {template.originalPrice}
+                    </span>
+                  )}
+                  <p className={`font-mono text-[20px] font-bold ${template.price === "Free" ? "text-emerald-500" : ""}`}>
+                    {template.price}
+                  </p>
+                </div>
                 <Link
                   href={template.href}
                   download={template.href.endsWith(".zip") ? "gemini-agent-loop.zip" : undefined}
