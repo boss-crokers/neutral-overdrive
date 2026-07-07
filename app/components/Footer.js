@@ -7,9 +7,11 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <span className="h-6 w-6 rounded bg-gradient-to-tr from-brand-cyan to-brand-violet flex items-center justify-center font-bold text-black text-xs">
-              N
-            </span>
+            <img
+              src="/logo.png"
+              alt="Neutral Overdrive Logo"
+              className="h-8 w-8 object-contain"
+            />
             <span className="font-sans font-extrabold text-sm tracking-tight text-white">
               NEUTRAL<span className="text-brand-violet">OVERDRIVE</span>
             </span>
