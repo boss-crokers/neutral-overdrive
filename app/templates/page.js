@@ -1,198 +1,82 @@
 import Link from "next/link";
-import { Sparkles, Terminal, FileCode, Copy, Layers, Cpu, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Download } from "lucide-react";
 
 export const metadata = {
-  title: "Premium Prompt Packs & Agent Templates",
-  description: "Download verified, production-ready system prompts, camera-panning motion settings, and multi-agent Python scripts for your LLM loops.",
+  title: "Prompt Templates and Agent Scripts",
+  description: "Download reusable prompts, scripts, and workflow templates for practical AI work.",
 };
 
-const TEMPLATES = [
+const templates = [
   {
-    id: "gemini-agent-loop",
     title: "Gemini 1.5 Pro Agent Loop Script",
-    category: "Python Script",
-    description: "Production-grade agent orchestrator script featuring structured Pydantic schemas, automated tool call integrations, and context token fallback handlers.",
-    price: "FREE",
-    originalPrice: "$19.99",
-    isFree: true,
-    checkoutUrl: "/downloads/gemini-agent-loop.zip",
-    features: [
-      "OpenAPI-compatible JSON Schema generator",
-      "GenAI SDK wrapper scripts in Python",
-      "System prompt template for structured output",
-      "Dynamic tool-calling callback routers"
-    ],
-    icon: Cpu,
-    accent: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-    glow: "from-emerald-500/10 via-[#060913]"
+    type: "Python script",
+    description:
+      "A starter loop for structured outputs, tool callbacks, and fallback handling in Gemini workflows.",
+    price: "Free",
+    href: "/downloads/gemini-agent-loop.zip",
+    detail: "Includes Python scripts, JSON schema helpers, and system prompt examples.",
   },
   {
-    id: "midjourney-photorealism-vault",
     title: "Midjourney v6 Photorealism Vault",
-    category: "Prompt Pack",
-    description: "50+ verified prompt formulas for ultra-realistic studio lighting, virtual camera lenses (anamorphic, macro), and style stylization coefficients.",
-    price: "FREE",
-    originalPrice: "$9.99",
-    isFree: true,
-    checkoutUrl: "/downloads/midjourney-photorealism-vault.md",
-    features: [
-      "Camera parameter templates (Shutter speed, ISO, Focal lengths)",
-      "Vibrant cinematic lighting modifiers",
-      "High-converting style & stylize parameters",
-      "Copy-paste aspect ratio grids"
-    ],
-    icon: Sparkles,
-    accent: "text-brand-cyan bg-brand-cyan/10 border-brand-cyan/20",
-    glow: "from-cyan-500/10 via-[#060913]"
+    type: "Prompt pack",
+    description:
+      "Camera, lens, lighting, and aspect-ratio formulas for controlled image generation.",
+    price: "Free",
+    href: "/downloads/midjourney-photorealism-vault.md",
+    detail: "Includes 50 prompt patterns and parameter notes.",
   },
   {
-    id: "multi-agent-rag-orchestrator",
     title: "Multi-Agent RAG Orchestrator",
-    category: "Python/Node Template",
-    description: "Ready-to-use RAG script featuring hierarchical agent routers, Pinecone/Supabase embeddings builders, and semantic query context filters.",
+    type: "Template plan",
+    description:
+      "A reference architecture for routing, retrieval, chunking, and vector search workflows.",
     price: "$29.99",
-    isFree: false,
-    checkoutUrl: "/advertise",
-    features: [
-      "Pinecone & pgvector index automation",
-      "Document chunking and embed pipeline (Gemini text-embedding-004)",
-      "Hierarchical agent router script",
-      "Metadata query filter scripts"
-    ],
-    icon: Terminal,
-    accent: "text-brand-violet bg-brand-violet/10 border-brand-violet/20",
-    glow: "from-purple-500/10 via-[#060913]"
-  }
+    href: "/advertise",
+    detail: "Available as a custom build request while the public template is prepared.",
+  },
 ];
 
 export default function TemplatesPage() {
   return (
-    <div className="flex-1 flex flex-col">
-      {/* Hero Section */}
-      <section className="relative py-20 md:py-28 overflow-hidden">
-        {/* Background Gradient Blurs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-        <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-brand-violet/10 rounded-full blur-[100px] pointer-events-none -z-10" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-semibold text-brand-cyan tracking-wider uppercase mb-6 shadow-md">
-            <Layers className="h-4 w-4" /> Digital Shop
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
-            Premium Prompt Packs & <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-violet bg-clip-text text-transparent">
-              Agentic Scripts
-            </span>
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Download production-ready prompt engineering databases, virtual camera presets, and pre-configured multi-agent orchestration files to ship your projects faster.
-          </p>
-        </div>
+    <div>
+      <section className="site-container border-b border-[var(--border)] py-9 md:py-12">
+        <Link href="/" className="text-link inline-flex items-center gap-2 text-[14px]">
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
+        <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
+          Prompt templates and agent scripts.
+        </h1>
+        <p className="body-copy mt-5 max-w-[680px] text-[17px]">
+          Reusable files for common AI workflows: prompting, structured output, retrieval, and model testing.
+        </p>
       </section>
 
-      {/* Templates Shop Grid */}
-      <section className="pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {TEMPLATES.map((tpl) => {
-            const Icon = tpl.icon;
-            return (
-              <div
-                key={tpl.id}
-                className="group relative flex flex-col bg-[#0a0f1d] border border-slate-900 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 hover:border-slate-850"
-              >
-                {/* Visual Top Glow */}
-                <div className={`absolute top-0 inset-x-0 h-40 bg-gradient-to-b ${tpl.glow} to-transparent opacity-60 pointer-events-none`} />
-
-                {/* Content */}
-                <div className="p-8 flex-1 flex flex-col justify-between relative z-10">
-                  <div>
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-6">
-                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${tpl.accent}`}>
-                        {tpl.category}
-                      </span>
-                      <div className="p-3 bg-slate-950/80 rounded-2xl border border-slate-900">
-                        <Icon className="h-6 w-6 text-white" />
-                      </div>
-                    </div>
-
-                    {/* Title */}
-                    <h3 className="text-2xl font-extrabold text-white mb-4 leading-snug group-hover:text-brand-cyan transition-colors">
-                      {tpl.title}
-                    </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed mb-6">
-                      {tpl.description}
-                    </p>
-
-                    {/* Features List */}
-                    <div className="border-t border-slate-900/80 pt-6 mb-8">
-                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-4">
-                        What's Included:
-                      </h4>
-                      <ul className="space-y-3">
-                        {tpl.features.map((feat, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-400 leading-normal">
-                            <span className="text-brand-cyan mt-0.5">•</span>
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Pricing and Action */}
-                  <div className="border-t border-slate-900/80 pt-6 flex items-center justify-between gap-4">
-                    <div>
-                      <span className="text-xs text-slate-500 font-bold block uppercase tracking-wider">
-                        Price
-                      </span>
-                      <div className="flex items-baseline gap-2">
-                        {tpl.originalPrice && (
-                          <span className="text-xs text-slate-500 line-through font-semibold">
-                            {tpl.originalPrice}
-                          </span>
-                        )}
-                        <span className={`text-xl sm:text-2xl font-black ${tpl.isFree ? "text-emerald-400 animate-pulse" : "text-white"}`}>
-                          {tpl.price}
-                        </span>
-                      </div>
-                    </div>
-                    <Link
-                      href={tpl.checkoutUrl}
-                      download={tpl.checkoutUrl.endsWith(".zip") ? "gemini-agent-loop.zip" : undefined}
-                      className="py-3 px-6 bg-gradient-to-tr from-brand-cyan to-brand-violet hover:from-cyan-400 hover:to-violet-500 text-black text-xs font-black rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-cyan-500/10 flex items-center gap-1.5"
-                    >
-                      Instant Download <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
+      <section className="site-container page-section">
+        <div className="divide-y divide-[var(--border)]">
+          {templates.map((template) => (
+            <article key={template.title} className="grid gap-5 py-7 first:pt-0 md:grid-cols-[1fr_160px]">
+              <div>
+                <p className="text-[13px] font-semibold text-[var(--accent)]">{template.type}</p>
+                <h2 className="mt-2 font-serif text-[32px] font-bold leading-tight tracking-[-0.025em]">
+                  {template.title}
+                </h2>
+                <p className="body-copy mt-3 max-w-[72ch] text-[15px]">{template.description}</p>
+                <p className="mt-4 text-[14px] text-[var(--muted)]">{template.detail}</p>
               </div>
-            );
-          })}
-        </div>
-
-        {/* Legal Software Disclaimer */}
-        <p className="text-[10px] text-slate-500 max-w-4xl mx-auto mt-8 text-center leading-relaxed">
-          * Software Disclaimer: All downloadable scripts, parameters, and prompts are provided &quot;as is&quot; without warranties of any kind. Neutral Overdrive does not guarantee model performance, compatibility with local host configurations, or API stability. Users are solely responsible for testing files in a sandbox environment and securing their own API keys.
-        </p>
-
-        {/* Support Banner */}
-        <div className="mt-16 bg-[#0a0f1d]/40 border border-slate-900 rounded-3xl p-8 text-center relative overflow-hidden max-w-4xl mx-auto">
-          <div className="absolute -top-16 -left-16 w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-brand-violet/5 rounded-full blur-2xl pointer-events-none" />
-          
-          <h4 className="text-lg font-bold text-white mb-2 relative z-10">
-            Need a Custom Script or Prompt Suite?
-          </h4>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto mb-6 relative z-10 leading-relaxed">
-            We architect production-grade LLM integrations, fine-tuning setups, and prompt configurations tailored to your data schema.
-          </p>
-          <Link
-            href="/advertise"
-            className="inline-flex items-center gap-1.5 text-xs font-black uppercase text-brand-cyan hover:text-cyan-300 transition-colors relative z-10 tracking-widest"
-          >
-            Get Custom Consultation <ArrowRight className="h-4.5 w-4.5" />
-          </Link>
+              <div className="flex flex-col items-start gap-4 md:items-end">
+                <p className="font-mono text-[20px] font-bold">{template.price}</p>
+                <Link
+                  href={template.href}
+                  download={template.href.endsWith(".zip") ? "gemini-agent-loop.zip" : undefined}
+                  className={template.price === "Free" ? "button-primary" : "button-secondary"}
+                >
+                  {template.price === "Free" ? "Download" : "Request access"}
+                  {template.price === "Free" ? <Download className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
+                </Link>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </div>

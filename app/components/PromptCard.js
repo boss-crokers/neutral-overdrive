@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Info } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 export default function PromptCard({
   imageUrl = "",
   promptText = "",
-  model = "Midjourney v6",
+  model = "AI model",
   aspectRatio = "16:9",
   seed = "N/A",
-  stylize = "250",
-  title = "Generated Output"
+  stylize = "N/A",
+  title = "Example output",
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -18,105 +18,58 @@ export default function PromptCard({
     try {
       await navigator.clipboard.writeText(promptText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy prompt: ", err);
+      setTimeout(() => setCopied(false), 1800);
+    } catch (error) {
+      console.error("Failed to copy prompt: ", error);
     }
   };
 
   return (
-    <div className="w-full bg-[#0a0f1d] border border-slate-800 rounded-2xl overflow-hidden my-8 shadow-2xl flex flex-col md:flex-row group hover:border-slate-700/80 transition-all duration-300">
-      
-      {/* Image Section - Left/Top */}
-      <div className="w-full md:w-1/2 aspect-video md:aspect-square relative bg-slate-950 overflow-hidden flex items-center justify-center">
+    <div className="my-9 grid overflow-hidden rounded-[8px] border border-[var(--border)] bg-[var(--surface)] md:grid-cols-[0.95fr_1.05fr]">
+      <div className="aspect-video bg-[var(--surface-subtle)] md:aspect-auto">
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            loading="lazy"
-          />
+          <img src={imageUrl} alt={title} className="h-full w-full object-cover" loading="lazy" />
         ) : (
-          <div className="w-full h-full bg-gradient-to-tr from-slate-900 via-purple-950/20 to-cyan-950/20 flex items-center justify-center text-slate-500 text-xs">
+          <div className="flex h-full items-center justify-center text-[13px] text-[var(--muted)]">
             No image provided
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute bottom-4 left-4 right-4">
-          <span className="text-[10px] text-brand-cyan font-bold tracking-widest uppercase bg-brand-cyan/10 border border-brand-cyan/20 px-2 py-0.5 rounded-full">
-            {model}
-          </span>
-        </div>
       </div>
 
-      {/* Details Section - Right/Bottom */}
-      <div className="w-full md:w-1/2 p-6 flex flex-col justify-between gap-6 bg-gradient-to-b from-[#0d1224] to-[#0a0f1d]">
-        
-        <div>
-          <div className="flex items-center justify-between mb-3">
-            <h4 className="text-sm font-semibold text-slate-200 uppercase tracking-wider">
-              System Prompt
+      <div className="p-5 md:p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h4 className="font-serif text-[22px] font-bold tracking-[-0.02em]">
+              Prompt example
             </h4>
-            
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1 text-xs text-slate-400 hover:text-white bg-slate-900/60 border border-slate-800 hover:border-slate-700 rounded-lg px-2.5 py-1.5 transition-all"
-            >
-              {copied ? (
-                <>
-                  <Check className="h-3 w-3 text-emerald-400" />
-                  <span className="text-emerald-400 font-medium">Copied!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="h-3 w-3" />
-                  <span>Copy Prompt</span>
-                </>
-              )}
-            </button>
+            <p className="mt-1 text-[13px] text-[var(--muted)]">{model}</p>
           </div>
-
-          {/* Prompt Box */}
-          <div className="p-4 bg-slate-950/80 border border-slate-800/80 rounded-xl text-sm font-mono text-slate-300 select-all leading-relaxed break-words shadow-inner">
-            {promptText}
-          </div>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="inline-flex items-center gap-2 rounded-[4px] border border-[var(--border)] px-3 py-2 text-[12px] font-medium hover:border-[var(--border-strong)]"
+          >
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? "Copied" : "Copy"}
+          </button>
         </div>
 
-        {/* Parameters Grid */}
-        <div className="border-t border-slate-800/60 pt-4">
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 mb-3">
-            <Info className="h-3.5 w-3.5 text-brand-cyan" />
-            <span className="font-semibold uppercase tracking-wider">Parameters</span>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-slate-950/40 border border-slate-800/40 rounded-lg p-2.5">
-              <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-0.5">
-                Aspect Ratio
-              </span>
-              <span className="text-xs font-mono font-bold text-white">
-                {aspectRatio}
-              </span>
-            </div>
-            <div className="bg-slate-950/40 border border-slate-800/40 rounded-lg p-2.5">
-              <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-0.5">
-                Stylize
-              </span>
-              <span className="text-xs font-mono font-bold text-white">
-                {stylize}
-              </span>
-            </div>
-            <div className="bg-slate-950/40 border border-slate-800/40 rounded-lg p-2.5">
-              <span className="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-0.5">
-                Seed
-              </span>
-              <span className="text-xs font-mono font-bold text-white truncate max-w-full block">
-                {seed}
-              </span>
-            </div>
-          </div>
-        </div>
+        <p className="mt-5 rounded-[6px] border border-[var(--border)] bg-[var(--surface-subtle)] p-4 font-mono text-[13px] leading-6 text-[var(--muted-strong)]">
+          {promptText}
+        </p>
 
+        <div className="mt-5 grid grid-cols-3 gap-3 border-t border-[var(--border)] pt-4">
+          {[
+            ["Aspect", aspectRatio],
+            ["Stylize", stylize],
+            ["Seed", seed],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <p className="text-[12px] text-[var(--muted)]">{label}</p>
+              <p className="mt-1 truncate font-mono text-[13px] font-semibold">{value}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

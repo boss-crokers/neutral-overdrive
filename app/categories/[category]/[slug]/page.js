@@ -1,28 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getArticleBySlug, getArticlesByCategory, getAllArticles } from "../../../lib/markdown";
+import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { getAllArticles, getArticleBySlug, getArticlesByCategory } from "../../../lib/markdown";
+import { articleImages, categoryMeta, formatDate, popularResources } from "../../../lib/siteData";
 import MarkdownRenderer from "../../../components/MarkdownRenderer";
-import AdUnit from "../../../components/AdUnit";
 import AuthorBio from "../../../components/AuthorBio";
 import RelatedArticles from "../../../components/RelatedArticles";
-import { ArrowLeft, Calendar, User, Clock, ArrowRight } from "lucide-react";
+import NewsletterSignup from "../../../components/NewsletterSignup";
 
 export async function generateStaticParams() {
-  let articles = [];
-  try {
-    articles = getAllArticles();
-  } catch (e) {
-    console.error(e);
-  }
-  return articles.map((article) => ({
+  return getAllArticles().map((article) => ({
     category: article.category,
     slug: article.slug,
   }));
 }
 
 export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const { slug } = resolvedParams;
+  const { slug } = await params;
   const article = getArticleBySlug(slug);
 
   if (!article) return {};
@@ -34,126 +28,112 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ArticlePage({ params }) {
-  const resolvedParams = await params;
-  const { category, slug } = resolvedParams;
+  const { category, slug } = await params;
   const article = getArticleBySlug(slug);
+  const meta = categoryMeta[category];
 
-  if (!article) {
-    notFound();
-  }
+  if (!article || !meta) notFound();
 
   const { metadata, content } = article;
   const relatedArticles = getArticlesByCategory(category);
-
-  // Visual meta maps
-  const categoryLabel = {
-    "image-generation": "Image Gen",
-    "video-generation": "Video Gen",
-    "agentic-workflows": "Agentic Workflows"
-  };
-
-  const badgeColors = {
-    "image-generation": "text-brand-cyan bg-brand-cyan/10 border-brand-cyan/20",
-    "video-generation": "text-brand-violet bg-brand-violet/10 border-brand-violet/20",
-    "agentic-workflows": "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-  };
-
   const schemaJson = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": metadata.title,
-    "description": metadata.description,
-    "datePublished": metadata.date,
-    "author": {
+    headline: metadata.title,
+    description: metadata.description,
+    datePublished: metadata.date,
+    author: {
       "@type": "Person",
-      "name": metadata.author,
-      "url": "https://neutraloverdrive.com/about"
+      name: metadata.author,
+      url: "https://neutraloverdrive.com/about",
     },
-    "publisher": {
+    publisher: {
       "@type": "Organization",
-      "name": "Neutral Overdrive",
-      "logo": {
+      name: "Neutral Overdrive",
+      logo: {
         "@type": "ImageObject",
-        "url": "https://neutraloverdrive.com/logo.png"
-      }
+        url: "https://neutraloverdrive.com/logo.png",
+      },
     },
-    "mainEntityOfPage": {
+    mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://neutraloverdrive.com/categories/${category}/${slug}`
-    }
+      "@id": `https://neutraloverdrive.com/categories/${category}/${slug}`,
+    },
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* JSON-LD Structured Data */}
+    <div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJson) }}
       />
 
-      {/* Back Link */}
-      <Link
-        href={`/categories/${category}`}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors mb-8 uppercase tracking-wider"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" /> Back to {categoryLabel[category]} Hub
-      </Link>
+      <section className="site-container border-b border-[var(--border)] py-8 md:py-10">
+        <Link href={`/categories/${category}`} className="text-link inline-flex items-center gap-2 text-[14px]">
+          <ArrowLeft className="h-4 w-4" />
+          Back to {meta.label}
+        </Link>
 
-      <div className="flex flex-col lg:flex-row gap-10 items-start">
-        
-        {/* Main Content Pane (Left) */}
-        <article className="flex-1 w-full bg-[#0a0f1d]/40 border border-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-sm">
-          
-          {/* Article Header */}
-          <header className="mb-10 pb-8 border-b border-slate-900">
-            <span className={`inline-block text-xs font-extrabold tracking-widest uppercase border px-3 py-1 rounded-full mb-6 ${badgeColors[category]}`}>
-              {categoryLabel[category]}
-            </span>
-            
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+        <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_440px] lg:items-end">
+          <div>
+            <p className="text-[14px] font-semibold text-[var(--accent)]">{meta.label}</p>
+            <h1 className="display-heading mt-4 max-w-[900px] text-[clamp(42px,6vw,72px)]">
               {metadata.title}
             </h1>
-            
-            {/* Meta row */}
-            <div className="flex flex-wrap items-center gap-6 text-sm text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <User className="h-4 w-4 text-brand-cyan" />
-                <span className="font-semibold text-slate-300">{metadata.author}</span>
+            <p className="body-copy mt-5 max-w-[760px] text-[17px]">
+              {metadata.description}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-5 text-[13px] text-[var(--muted)]">
+              <span>{metadata.author}</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Calendar className="h-4 w-4" />
+                {formatDate(metadata.date)}
               </span>
-              <span className="flex items-center gap-1.5">
-                <Calendar className="h-4 w-4 text-slate-500" />
-                <span>
-                  {new Date(metadata.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric"
-                  })}
-                </span>
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-4 w-4 text-slate-500" />
-                <span>5 min read</span>
+              <span className="inline-flex items-center gap-1.5">
+                <Clock className="h-4 w-4" />
+                12 min read
               </span>
             </div>
-          </header>
+          </div>
 
-          {/* Render MDX with Shortcode Component Injection */}
-          <MarkdownRenderer content={content} prompts={metadata.prompts} />
+          <div className="media-frame aspect-[1.6/1]">
+            <img
+              src={articleImages[slug] || "/neutral-overdrive-workspace.png"}
+              alt=""
+              className="h-full w-full object-cover"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </section>
 
-          {/* Author Bio Details (E-E-A-T) */}
-          <AuthorBio authorName={metadata.author} />
+      <section className="site-container page-section">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,780px)_320px] lg:justify-between">
+          <article>
+            <MarkdownRenderer content={content} prompts={metadata.prompts} />
+            <AuthorBio authorName={metadata.author} />
+            <RelatedArticles articles={relatedArticles} currentSlug={slug} />
+          </article>
 
-          {/* Related Articles Carousel Recirculation */}
-          <RelatedArticles articles={relatedArticles} currentSlug={slug} />
-          
-        </article>
-
-        {/* Sticky Right Sidebar (Right) */}
-        <aside className="w-full lg:w-[300px] flex-shrink-0 lg:sticky lg:top-24 flex flex-col items-center gap-6">
-          <AdUnit type="sidebar-skyscraper" />
-        </aside>
-
-      </div>
+          <aside className="space-y-8 lg:border-l lg:border-[var(--border)] lg:pl-8">
+            <NewsletterSignup compact />
+            <div>
+              <h2 className="font-serif text-[24px] font-bold tracking-[-0.02em]">
+                Popular resources
+              </h2>
+              <ul className="mt-5 space-y-3">
+                {popularResources.map((resource) => (
+                  <li key={resource.label}>
+                    <Link href={resource.href} className="text-link text-[14px]">
+                      {resource.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </section>
     </div>
   );
 }

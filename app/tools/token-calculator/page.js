@@ -1,300 +1,169 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import AdUnit from "../../components/AdUnit";
-import { ArrowLeft, Calculator, Sparkles, Cpu, HelpCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+
+const MODEL_SOURCES = [
+  { label: "OpenAI pricing", href: "https://openai.com/api/pricing/" },
+  { label: "Gemini API pricing", href: "https://ai.google.dev/gemini-api/docs/pricing" },
+  { label: "Claude pricing", href: "https://claude.com/platform/api" },
+  { label: "Fable 5 availability", href: "https://www.anthropic.com/news/claude-fable-5-mythos-5" },
+];
 
 const MODELS = [
-  {
-    id: "gemini-1.5-flash",
-    name: "Gemini 1.5 Flash",
-    provider: "Google",
-    inputCostPerMillion: 0.075,
-    outputCostPerMillion: 0.30,
-    contextWindow: "1M tokens"
-  },
-  {
-    id: "gemini-1.5-pro",
-    name: "Gemini 1.5 Pro",
-    provider: "Google",
-    inputCostPerMillion: 1.25,
-    outputCostPerMillion: 5.00,
-    contextWindow: "2M tokens"
-  },
-  {
-    id: "claude-3.5-haiku",
-    name: "Claude 3.5 Haiku",
-    provider: "Anthropic",
-    inputCostPerMillion: 1.00,
-    outputCostPerMillion: 5.00,
-    contextWindow: "200k tokens"
-  },
-  {
-    id: "claude-3.5-sonnet",
-    name: "Claude 3.5 Sonnet",
-    provider: "Anthropic",
-    inputCostPerMillion: 3.00,
-    outputCostPerMillion: 15.00,
-    contextWindow: "200k tokens"
-  },
-  {
-    id: "gpt-4o-mini",
-    name: "GPT-4o Mini",
-    provider: "OpenAI",
-    inputCostPerMillion: 0.15,
-    outputCostPerMillion: 0.60,
-    contextWindow: "128k tokens"
-  },
-  {
-    id: "gpt-4o",
-    name: "GPT-4o",
-    provider: "OpenAI",
-    inputCostPerMillion: 2.50,
-    outputCostPerMillion: 10.00,
-    contextWindow: "128k tokens"
-  }
+  { id: "gpt-5.5", name: "GPT-5.5", provider: "OpenAI", inputCostPerMillion: 5, outputCostPerMillion: 30, note: "Standard text rate, under 270K context" },
+  { id: "gpt-5.4", name: "GPT-5.4", provider: "OpenAI", inputCostPerMillion: 2.5, outputCostPerMillion: 15, note: "Standard text rate, under 270K context" },
+  { id: "gpt-5.4-mini", name: "GPT-5.4 mini", provider: "OpenAI", inputCostPerMillion: 0.75, outputCostPerMillion: 4.5, note: "Standard text rate, under 270K context" },
+  { id: "claude-fable-5", name: "Claude Fable 5", provider: "Anthropic", inputCostPerMillion: 10, outputCostPerMillion: 50, note: "Long-running agents, Claude API" },
+  { id: "claude-opus-4.8", name: "Claude Opus 4.8", provider: "Anthropic", inputCostPerMillion: 5, outputCostPerMillion: 25, note: "Complex agentic coding and enterprise work" },
+  { id: "claude-sonnet-5", name: "Claude Sonnet 5", provider: "Anthropic", inputCostPerMillion: 2, outputCostPerMillion: 10, note: "Intro rate through Aug 31, 2026" },
+  { id: "claude-haiku-4.5", name: "Claude Haiku 4.5", provider: "Anthropic", inputCostPerMillion: 1, outputCostPerMillion: 5, note: "Fastest Claude tier" },
+  { id: "gemini-3.5-flash", name: "Gemini 3.5 Flash", provider: "Google", inputCostPerMillion: 1.5, outputCostPerMillion: 9, note: "Standard paid tier" },
+  { id: "gemini-3.1-pro-preview", name: "Gemini 3.1 Pro Preview", provider: "Google", inputCostPerMillion: 2, outputCostPerMillion: 12, note: "Standard tier, prompts <= 200K" },
+  { id: "gemini-3.1-flash-lite", name: "Gemini 3.1 Flash-Lite", provider: "Google", inputCostPerMillion: 0.25, outputCostPerMillion: 1.5, note: "Standard text, image, and video rate" },
+  { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash", provider: "Google", inputCostPerMillion: 0.3, outputCostPerMillion: 2.5, note: "Standard text, image, and video rate" },
 ];
+
+function NumberField({ label, value, min, max, step, onChange }) {
+  return (
+    <label className="block">
+      <span className="flex items-center justify-between gap-4 text-[14px] font-semibold">
+        {label}
+        <input
+          type="number"
+          value={value}
+          onChange={(event) => onChange(Math.max(0, parseInt(event.target.value, 10) || 0))}
+          className="theme-input h-9 w-28 px-2 text-right font-mono text-[13px]"
+        />
+      </span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(event) => onChange(parseInt(event.target.value, 10))}
+        className="mt-4 w-full accent-[var(--accent)]"
+      />
+    </label>
+  );
+}
 
 export default function TokenCalculator() {
   const [selectedModelId, setSelectedModelId] = useState(MODELS[0].id);
   const [inputTokens, setInputTokens] = useState(15000);
   const [outputTokens, setOutputTokens] = useState(5000);
   const [runsPerMonth, setRunsPerMonth] = useState(1000);
-  const [pricing, setPricing] = useState({ inputCost: 0, outputCost: 0, runCost: 0, totalMonthlyCost: 0 });
 
-  const activeModel = MODELS.find((m) => m.id === selectedModelId) || MODELS[0];
-
-  useEffect(() => {
-    // Calculate cost metrics
-    const inputCost = (inputTokens / 1_000_000) * activeModel.inputCostPerMillion;
-    const outputCost = (outputTokens / 1_000_000) * activeModel.outputCostPerMillion;
-    const runCost = inputCost + outputCost;
-    const totalMonthlyCost = runCost * runsPerMonth;
-
-    setPricing({
-      inputCost: inputCost.toFixed(5),
-      outputCost: outputCost.toFixed(5),
-      runCost: runCost.toFixed(4),
-      totalMonthlyCost: totalMonthlyCost.toFixed(2)
-    });
-  }, [selectedModelId, inputTokens, outputTokens, runsPerMonth, activeModel]);
+  const activeModel = MODELS.find((model) => model.id === selectedModelId) || MODELS[0];
+  const inputCost = (inputTokens / 1_000_000) * activeModel.inputCostPerMillion;
+  const outputCost = (outputTokens / 1_000_000) * activeModel.outputCostPerMillion;
+  const runCost = inputCost + outputCost;
+  const totalMonthlyCost = runCost * runsPerMonth;
+  const pricing = {
+    inputCost: inputCost.toFixed(5),
+    outputCost: outputCost.toFixed(5),
+    runCost: runCost.toFixed(4),
+    totalMonthlyCost: totalMonthlyCost.toFixed(2),
+  };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      {/* Back link */}
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors mb-8 uppercase tracking-wider"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" /> Back to Home
-      </Link>
+    <div>
+      <section className="site-container border-b border-[var(--border)] py-9 md:py-12">
+        <Link href="/" className="text-link inline-flex items-center gap-2 text-[14px]">
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
+        <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
+          AI API token cost calculator
+        </h1>
+        <p className="body-copy mt-5 max-w-[680px] text-[17px]">
+          Estimate text-token API spend before a workflow runs. Rates were refreshed July 7, 2026 from official provider pricing.
+        </p>
+      </section>
 
-      <div className="flex flex-col lg:flex-row gap-8 items-start">
-        {/* Main interactive area */}
-        <div className="flex-1 w-full bg-[#0a0f1d]/40 border border-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm">
-          <header className="mb-10 pb-6 border-b border-slate-900 flex items-center gap-3">
-            <span className="p-2.5 bg-brand-cyan/10 border border-brand-cyan/20 rounded-xl text-brand-cyan shadow-[0_0_15px_rgba(6,182,212,0.2)]">
-              <Calculator className="h-6 w-6" />
-            </span>
-            <div>
-              <h1 className="text-3xl font-extrabold text-white">AI API Token Cost Calculator</h1>
-              <p className="text-sm text-slate-400 mt-1">Estimate developer API billing fees dynamically across leading LLM providers.</p>
-            </div>
-          </header>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Input Form Fields */}
-            <div className="space-y-6">
-              {/* Select Model */}
-              <div>
-                <label className="block text-xs font-extrabold text-slate-400 uppercase tracking-widest mb-3">
-                  Select AI Model
-                </label>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {MODELS.map((model) => (
-                    <button
-                      key={model.id}
-                      onClick={() => setSelectedModelId(model.id)}
-                      className={`p-4 text-left rounded-2xl border transition-all ${
-                        selectedModelId === model.id
-                          ? "bg-brand-cyan/5 border-brand-cyan shadow-[0_0_15px_rgba(6,182,212,0.1)] text-white"
-                          : "bg-slate-950/40 border-slate-900 hover:border-slate-800 text-slate-300"
-                      }`}
-                    >
-                      <span className="block text-xs text-slate-500 font-mono tracking-wider mb-1">
-                        {model.provider}
-                      </span>
-                      <span className="block font-bold text-sm">
-                        {model.name}
-                      </span>
-                      <span className="block text-[10px] text-slate-400 mt-2 font-mono">
-                        Ctx: {model.contextWindow}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Input Tokens */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-                    Input (Prompt) Tokens
-                  </label>
-                  <input
-                    type="number"
-                    value={inputTokens}
-                    onChange={(e) => setInputTokens(Math.max(0, parseInt(e.target.value) || 0))}
-                    className="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-right text-xs font-mono focus:outline-none focus:border-brand-cyan"
-                  />
-                </div>
-                <input
-                  type="range"
-                  min="100"
-                  max="200000"
-                  step="500"
-                  value={inputTokens}
-                  onChange={(e) => setInputTokens(parseInt(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-brand-cyan"
-                />
-                <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                  <span>100 tkn</span>
-                  <span>100k tkn</span>
-                  <span>200k tkn</span>
-                </div>
-              </div>
-
-              {/* Output Tokens */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-                    Output (Completion) Tokens
-                  </label>
-                  <input
-                    type="number"
-                    value={outputTokens}
-                    onChange={(e) => setOutputTokens(Math.max(0, parseInt(e.target.value) || 0))}
-                    className="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-right text-xs font-mono focus:outline-none focus:border-brand-cyan"
-                  />
-                </div>
-                <input
-                  type="range"
-                  min="50"
-                  max="64000"
-                  step="100"
-                  value={outputTokens}
-                  onChange={(e) => setOutputTokens(parseInt(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-brand-cyan"
-                />
-                <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                  <span>50 tkn</span>
-                  <span>32k tkn</span>
-                  <span>64k tkn</span>
-                </div>
-              </div>
-
-              {/* Runs per Month */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="block text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-                    API Calls / Month
-                  </label>
-                  <input
-                    type="number"
-                    value={runsPerMonth}
-                    onChange={(e) => setRunsPerMonth(Math.max(0, parseInt(e.target.value) || 0))}
-                    className="w-24 bg-slate-950 border border-slate-800 rounded-lg px-2 py-1 text-right text-xs font-mono focus:outline-none focus:border-brand-cyan"
-                  />
-                </div>
-                <input
-                  type="range"
-                  min="10"
-                  max="100000"
-                  step="500"
-                  value={runsPerMonth}
-                  onChange={(e) => setRunsPerMonth(parseInt(e.target.value))}
-                  className="w-full h-1.5 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-brand-cyan"
-                />
-                <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                  <span>10 calls</span>
-                  <span>50k calls</span>
-                  <span>100k calls</span>
-                </div>
-              </div>
+      <section className="site-container page-section">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <h2 className="font-serif text-[28px] font-bold tracking-[-0.02em]">
+              Model and volume
+            </h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {MODELS.map((model) => (
+                <button
+                  key={model.id}
+                  type="button"
+                  onClick={() => setSelectedModelId(model.id)}
+                  className={`rounded-[8px] border p-4 text-left transition-colors ${
+                    selectedModelId === model.id
+                      ? "border-[var(--accent)] bg-[var(--accent-soft)]"
+                      : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--border-strong)]"
+                  }`}
+                >
+                  <span className="block text-[12px] text-[var(--muted)]">{model.provider}</span>
+                  <span className="mt-1 block text-[15px] font-semibold">{model.name}</span>
+                  <span className="mt-3 block font-mono text-[12px] text-[var(--muted)]">
+                    {model.note}
+                  </span>
+                </button>
+              ))}
             </div>
 
-            {/* Calculations Dashboard Output */}
-            <div className="bg-[#070b16] border border-slate-900 rounded-2xl p-6 flex flex-col justify-between shadow-inner">
-              <div className="space-y-4">
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-slate-900 border border-slate-800 rounded-full text-[10px] font-semibold text-brand-cyan tracking-wider uppercase">
-                  <Sparkles className="h-3 w-3" /> Estimate Metrics
-                </span>
-
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-slate-900/60">
-                    <span className="text-xs text-slate-400">Selected Model Rate (In / Out)</span>
-                    <span className="text-xs font-mono font-semibold text-white">
-                      ${activeModel.inputCostPerMillion} / ${activeModel.outputCostPerMillion} <span className="text-[10px] text-slate-500">per 1M</span>
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center py-2 border-b border-slate-900/60">
-                    <span className="text-xs text-slate-400">Estimated Prompt Cost</span>
-                    <span className="text-xs font-mono font-semibold text-slate-200">${pricing.inputCost}</span>
-                  </div>
-
-                  <div className="flex justify-between items-center py-2 border-b border-slate-900/60">
-                    <span className="text-xs text-slate-400">Estimated Completion Cost</span>
-                    <span className="text-xs font-mono font-semibold text-slate-200">${pricing.outputCost}</span>
-                  </div>
-
-                  <div className="flex justify-between items-center py-3 border-b border-slate-900">
-                    <span className="text-xs font-bold text-slate-300">Cost Per Single API Call</span>
-                    <span className="text-sm font-mono font-bold text-brand-cyan">${pricing.runCost}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Total Monthly Projection */}
-              <div className="mt-8 pt-6 border-t border-slate-900 flex flex-col justify-center text-center bg-slate-950/40 p-4 rounded-xl">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-black mb-1">
-                  Estimated Monthly Billing
-                </span>
-                <span className="text-4xl font-mono font-black text-white glow-cyan tracking-tight">
-                  ${pricing.totalMonthlyCost}
-                </span>
-                <span className="text-[10px] text-slate-500 font-mono mt-2">
-                  Projected across {runsPerMonth.toLocaleString()} automated calls
-                </span>
+            <div className="mt-9 space-y-8 border-t border-[var(--border)] pt-8">
+              <NumberField label="Input tokens" value={inputTokens} min="100" max="200000" step="500" onChange={setInputTokens} />
+              <NumberField label="Output tokens" value={outputTokens} min="50" max="64000" step="100" onChange={setOutputTokens} />
+              <NumberField label="API calls per month" value={runsPerMonth} min="10" max="100000" step="500" onChange={setRunsPerMonth} />
             </div>
           </div>
-          {/* Disclaimer Footnote */}
-          <p className="text-[10px] text-slate-500 max-w-3xl mt-6 leading-relaxed">
-            * Disclaimer: Calculations are estimates only based on standard API list rates. Actual API billing depends on vendor-specific rules, prompt caching, prompt length metrics, and code loop execution. Neutral Overdrive is not liable for cloud provider billing spikes, service interruptions, or software outcomes.
-          </p>
+
+          <aside className="rule-card h-fit p-6 lg:sticky lg:top-28">
+            <h2 className="font-serif text-[28px] font-bold tracking-[-0.02em]">
+              Estimate
+            </h2>
+            <dl className="mt-6 divide-y divide-[var(--border)]">
+              {[
+                ["Selected rate", `$${activeModel.inputCostPerMillion} / $${activeModel.outputCostPerMillion} per 1M`],
+                ["Prompt cost", `$${pricing.inputCost}`],
+                ["Completion cost", `$${pricing.outputCost}`],
+                ["Single API call", `$${pricing.runCost}`],
+              ].map(([label, value]) => (
+                <div key={label} className="flex justify-between gap-5 py-4 text-[14px]">
+                  <dt className="text-[var(--muted)]">{label}</dt>
+                  <dd className="text-right font-mono font-semibold">{value}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-6 border-t border-[var(--border)] pt-6">
+              <p className="text-[13px] text-[var(--muted)]">Estimated monthly billing</p>
+              <p className="mt-2 font-mono text-[44px] font-bold tracking-[-0.04em]">
+                ${pricing.totalMonthlyCost}
+              </p>
+              <p className="mt-2 text-[13px] leading-6 text-[var(--muted)]">
+                Based on {runsPerMonth.toLocaleString()} calls with the selected token mix.
+              </p>
+            </div>
+            <div className="mt-6 border-t border-[var(--border)] pt-6 text-[13px] leading-6 text-[var(--muted)]">
+              <p>
+                Estimates exclude cached-input discounts, batch/flex/priority modes, audio, video, image output, grounding, tools, tax, and regional multipliers.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                {MODEL_SOURCES.map((source) => (
+                  <a
+                    key={source.href}
+                    href={source.href}
+                    className="text-link"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {source.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </aside>
         </div>
-      </div>
-
-        {/* Side Advertisement Slot */}
-        <aside className="w-full lg:w-[300px] flex-shrink-0 flex flex-col items-center gap-6">
-          <div className="w-full p-6 bg-[#0a0f1d]/40 border border-slate-900 rounded-2xl flex flex-col gap-4 text-center">
-            <h4 className="text-xs font-black text-white uppercase tracking-widest">
-              Direct Tool Sponsorship
-            </h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Advertise your dev tool directly on this high-traffic calculator. Reaching 50,000+ AI developers monthly.
-            </p>
-            <Link
-              href="/advertise"
-              className="py-2.5 bg-brand-cyan hover:bg-cyan-400 text-black text-xs font-extrabold rounded-lg tracking-wider uppercase transition-colors"
-            >
-              Book Sponsorship Slot
-            </Link>
-          </div>
-          <AdUnit type="sidebar-skyscraper" />
-        </aside>
-      </div>
+      </section>
     </div>
   );
 }

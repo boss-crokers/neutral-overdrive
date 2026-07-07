@@ -1,208 +1,240 @@
-// Trigger build: node version update
 import Link from "next/link";
+import {
+  ArrowRight,
+  BarChart3,
+  Bot,
+  Braces,
+  ChartLine,
+  Code2,
+  Database,
+  FileText,
+  GitBranch,
+  ListChecks,
+  MessageSquareText,
+  Search,
+  Wrench,
+} from "lucide-react";
 import { getAllArticles } from "./lib/markdown";
-import AdUnit from "./components/AdUnit";
+import { articleImages, categoryMeta, formatDate, popularResources, topics } from "./lib/siteData";
 import NewsletterSignup from "./components/NewsletterSignup";
-import { Image, Video, Cpu, ArrowRight, Sparkles, BookOpen } from "lucide-react";
+
+const topicIcons = {
+  Workflows: GitBranch,
+  Comparisons: BarChart3,
+  Prompts: MessageSquareText,
+  "Tools & APIs": Wrench,
+  Optimization: ChartLine,
+  "RAG & Data": Database,
+  Agents: Bot,
+  "Content & Marketing": FileText,
+  "Code & DevOps": Code2,
+};
+
+function FeaturedGuide({ article }) {
+  const meta = categoryMeta[article.category] || categoryMeta["agentic-workflows"];
+
+  return (
+    <article className="grid gap-5 border-b border-[var(--border)] py-5 last:border-b-0 sm:grid-cols-[176px_1fr_98px]">
+      <Link href={`/categories/${article.category}/${article.slug}`} className="media-frame block aspect-[2.35/1] sm:aspect-[2.15/1]">
+        <img
+          src={articleImages[article.slug] || "/neutral-overdrive-workspace.png"}
+          alt=""
+          className="h-full w-full object-cover"
+          loading="eager"
+        />
+      </Link>
+      <div>
+        <Link href={`/categories/${article.category}/${article.slug}`}>
+          <h3 className="font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] hover:text-[var(--accent)]">
+            {article.title}
+          </h3>
+        </Link>
+        <p className="mt-2 max-w-[46ch] text-[14px] leading-6 text-[var(--muted)]">
+          {article.description}
+        </p>
+      </div>
+      <div className="flex flex-row items-start justify-between gap-4 sm:flex-col sm:items-end">
+        <div className="text-right">
+          <p className="meta-text">{formatDate(article.date)}</p>
+          <p className="meta-text mt-3">12 min read</p>
+        </div>
+        <Link
+          href={`/categories/${article.category}/${article.slug}`}
+          className="text-[13px] font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]"
+        >
+          {meta.label}
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+function GraphitePreview({ articles }) {
+  return (
+    <div className="graphite-preview pointer-events-none absolute bottom-[-112px] right-[-38px] hidden w-[440px] rounded-[8px] border border-[#344044] bg-[#101619] p-5 text-[#f3f5f3] shadow-[0_18px_45px_rgba(0,0,0,0.32)] xl:block">
+      <div className="flex items-start justify-between">
+        <div className="text-[15px] font-black leading-[0.9] tracking-[-0.04em]">
+          <span className="block">NEUTRAL</span>
+          <span className="block">OVERDRIVE</span>
+        </div>
+        <div className="flex gap-5 text-[8px] text-[#c3cbcd]">
+          <span>Guides</span>
+          <span>Comparisons</span>
+          <span>Templates</span>
+          <span>Tools</span>
+        </div>
+      </div>
+      <div className="mt-6 grid grid-cols-[1fr_1.1fr] gap-5">
+        <div>
+          <h3 className="font-serif text-[20px] font-bold leading-[1.05] tracking-[-0.03em]">
+            Practical AI workflow guides for people shipping real work.
+          </h3>
+          <p className="mt-3 text-[9px] leading-4 text-[#b6bec0]">
+            Step-by-step tutorials, model comparisons, prompt templates, and developer tools.
+          </p>
+        </div>
+        <div className="overflow-hidden rounded-[5px] border border-[#344044]">
+          <img src="/neutral-overdrive-workspace.png" alt="" className="h-full w-full object-cover" />
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-[1.2fr_1fr_1fr] gap-4 border-t border-[#344044] pt-4">
+        <div>
+          <p className="text-[10px] font-semibold">Featured guides</p>
+          <div className="mt-3 space-y-3">
+            {articles.slice(0, 3).map((article) => (
+              <div key={article.slug} className="grid grid-cols-[40px_1fr] gap-2">
+                <img
+                  src={articleImages[article.slug] || "/neutral-overdrive-workspace.png"}
+                  alt=""
+                  className="h-7 w-full rounded-[3px] object-cover"
+                />
+                <div>
+                  <p className="line-clamp-1 text-[8px] font-semibold">{article.title}</p>
+                  <p className="mt-1 text-[7px] text-[#8f9b9f]">{formatDate(article.date)}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold">Browse by topic</p>
+          <div className="mt-3 space-y-2">
+            {topics.slice(0, 6).map((topic) => (
+              <div key={topic.name} className="flex justify-between border-b border-[#263237] pb-1 text-[8px]">
+                <span>{topic.name}</span>
+                <span className="text-[#8f9b9f]">{topic.count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-[10px] font-semibold">Popular resources</p>
+          <div className="mt-3 space-y-2 text-[8px] text-[#b6d6ff]">
+            {popularResources.slice(0, 5).map((resource) => (
+              <p key={resource.label}>{resource.label}</p>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const articles = getAllArticles();
-
-  const categories = [
-    {
-      name: "Image Generation",
-      description: "Midjourney & DALL-E 3 prompting strategies, aspect ratios, and styles.",
-      href: "/categories/image-generation",
-      icon: Image,
-      color: "from-cyan-500/20 to-blue-500/20 border-cyan-500/30",
-      accent: "text-brand-cyan hover:shadow-cyan-500/20"
-    },
-    {
-      name: "Video Generation",
-      description: "Temporal prompts, camera control workflows, and physics engine tips for Kling AI.",
-      href: "/categories/video-generation",
-      icon: Video,
-      color: "from-purple-500/20 to-pink-500/20 border-purple-500/30",
-      accent: "text-brand-violet hover:shadow-purple-500/20"
-    },
-    {
-      name: "Agentic Workflows",
-      description: "Deep dives into multi-agent systems, Gemini API RAG, and Antigravity SDK orchestration.",
-      href: "/categories/agentic-workflows",
-      icon: Cpu,
-      color: "from-emerald-500/20 to-teal-500/20 border-emerald-500/30",
-      accent: "text-emerald-400 hover:shadow-emerald-500/20"
-    }
-  ];
+  const featured = articles.slice(0, 4);
 
   return (
-    <div className="w-full">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-16 md:pt-32 md:pb-24 border-b border-dark-border bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900/40 via-[#060913] to-[#060913]">
-        {/* Glow Spheres */}
-        <div className="absolute top-12 left-1/4 w-96 h-96 bg-brand-cyan/10 rounded-full blur-3xl -z-10 animate-pulse" />
-        <div className="absolute top-24 right-1/4 w-96 h-96 bg-brand-violet/10 rounded-full blur-3xl -z-10" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-900 border border-slate-800 rounded-full text-xs font-semibold text-brand-cyan tracking-wider uppercase mb-6 shadow-inner">
-            <Sparkles className="h-3 w-3 text-brand-cyan" /> Engineering the Generative Web
-          </span>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white mb-6">
-            Master the Mechanics of{" "}
-            <span className="bg-gradient-to-r from-brand-cyan via-cyan-400 to-brand-violet bg-clip-text text-transparent glow-cyan">
-              AI Prompting & Code
-            </span>
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-400 mb-10 leading-relaxed">
-            Welcome to the ultimate tech-forward sandbox. Discover production-grade workflows for Midjourney, DALL-E, Kling AI, and multi-agent pipelines powered by Google Antigravity.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#tutorials"
-              className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-tr from-brand-cyan to-brand-violet hover:from-cyan-400 hover:to-violet-500 text-black font-extrabold rounded-xl shadow-[0_4px_20px_rgba(6,182,212,0.35)] hover:shadow-[0_4px_25px_rgba(6,182,212,0.5)] transition-all flex items-center justify-center gap-2"
-            >
-              Explore Tutorials <ArrowRight className="h-4 w-4" />
-            </a>
-            <Link
-              href="/categories/agentic-workflows"
-              className="w-full sm:w-auto px-8 py-3.5 bg-slate-900/80 hover:bg-slate-850 border border-slate-800 hover:border-slate-700 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
-            >
-              Agentic Hub
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Top Banner Ad Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AdUnit type="top-leaderboard" />
-      </div>
-
-      {/* Category Links Hubs */}
-      <section className="py-12 bg-slate-950/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <Link
-                  key={cat.name}
-                  href={cat.href}
-                  className={`group relative p-6 bg-gradient-to-br ${cat.color} border rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-700/60 shadow-xl overflow-hidden`}
-                >
-                  <div className="absolute inset-0 bg-slate-950/80 -z-10" />
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-3 bg-slate-900/90 rounded-xl border border-slate-800/80 group-hover:border-slate-700 transition-colors">
-                      <Icon className="h-6 w-6 text-white group-hover:text-brand-cyan transition-colors" />
-                    </div>
-                    <ArrowRight className="h-5 w-5 text-slate-500 group-hover:text-white transition-all transform group-hover:translate-x-1" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{cat.name}</h3>
-                  <p className="text-sm text-slate-400 leading-relaxed">{cat.description}</p>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Signup Banner */}
-      <section className="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <NewsletterSignup />
-      </section>
-
-      {/* Latest Tutorials - Grid */}
-      <section id="tutorials" className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+    <div className="overflow-hidden">
+      <section className="site-container relative border-b border-[var(--border)] py-9 md:py-11">
+        <div className="grid items-center gap-8 lg:grid-cols-[0.92fr_1fr]">
           <div>
-            <div className="flex items-center gap-2 text-brand-cyan text-xs font-bold tracking-widest uppercase mb-2">
-              <BookOpen className="h-4 w-4" /> Technical Repository
+            <h1 className="display-heading max-w-[680px] text-[clamp(42px,5.2vw,64px)]">
+              Practical AI workflow guides for people shipping real work.
+            </h1>
+            <p className="body-copy mt-6 max-w-[560px] text-[16px] md:text-[17px]">
+              Step-by-step tutorials, model comparisons, prompt templates, and developer tools, tested in real projects and updated weekly.
+            </p>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <Link href="#featured-guides" className="button-primary">
+                Browse guides <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link href="/tools/token-calculator" className="button-secondary">
+                Use token calculator <ListChecks className="h-4 w-4" />
+              </Link>
             </div>
-            <h2 className="text-3xl font-extrabold text-white">Latest AI Workflows</h2>
           </div>
-          <p className="text-slate-400 max-w-md">
-            Step-by-step developer tutorials parsing generative frameworks into reproducible parameters.
-          </p>
+
+          <div className="media-frame aspect-[2.45/1.08]">
+            <img
+              src="/neutral-overdrive-workspace.png"
+              alt="Laptop on a bright desk showing an AI workflow document."
+              className="h-full w-full object-cover"
+            />
+          </div>
         </div>
+        <GraphitePreview articles={articles} />
+      </section>
 
-        {/* Masonry or Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article) => {
-            const imageMap = {
-              "midjourney-mastery": "/midjourney-portrait.jpg",
-              "kling-video-techniques": "/kling-cinematic.jpg",
-              "agentic-rag-orchestration": "/agentic-flow.jpg"
-            };
+      <section id="featured-guides" className="site-container page-section">
+        <div className="grid gap-10 lg:grid-cols-[1.35fr_0.95fr_0.78fr]">
+          <div>
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <h2 className="font-serif text-[26px] font-bold tracking-[-0.02em]">
+                Featured guides
+              </h2>
+              <Link href="/categories/agentic-workflows" className="text-link text-[13px]">
+                View all guides <ArrowRight className="inline h-3.5 w-3.5" />
+              </Link>
+            </div>
+            <div>
+              {featured.map((article) => (
+                <FeaturedGuide key={article.slug} article={article} />
+              ))}
+            </div>
+          </div>
 
-            const colors = {
-              "image-generation": "text-brand-cyan bg-brand-cyan/10 border-brand-cyan/20",
-              "video-generation": "text-brand-violet bg-brand-violet/10 border-brand-violet/20",
-              "agentic-workflows": "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
-            };
+          <div className="border-t border-[var(--border)] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+            <h2 className="font-serif text-[26px] font-bold tracking-[-0.02em]">
+              Browse by topic
+            </h2>
+            <div className="mt-5 divide-y divide-[var(--border)]">
+              {topics.map((topic) => {
+                const Icon = topicIcons[topic.name] || Search;
+                return (
+                  <Link
+                    key={topic.name}
+                    href={topic.href}
+                    className="grid grid-cols-[28px_1fr_auto] items-center gap-3 py-3 text-[15px] hover:text-[var(--accent)]"
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{topic.name}</span>
+                    <span className="text-[13px] text-[var(--muted)]">{topic.count}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
 
-            const categoryLabel = {
-              "image-generation": "Image Gen",
-              "video-generation": "Video Gen",
-              "agentic-workflows": "Agentic Workflows"
-            };
+          <aside className="space-y-8 border-t border-[var(--border)] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+            <NewsletterSignup title="Get practical AI guides in your inbox" compact />
 
-            return (
-              <article
-                key={article.slug}
-                className="group flex flex-col bg-[#0a0f1d] border border-slate-900 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:border-slate-800 hover:-translate-y-1"
-              >
-                {/* Image Wrap */}
-                <Link
-                  href={`/categories/${article.category}/${article.slug}`}
-                  className="aspect-video relative overflow-hidden bg-slate-950 block"
-                >
-                  <img
-                    src={imageMap[article.slug] || "/midjourney-portrait.jpg"}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d]/90 via-transparent to-transparent" />
-                </Link>
-
-                {/* Content */}
-                <div className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <span className={`inline-block text-[10px] font-bold tracking-widest uppercase border px-2.5 py-0.5 rounded-full mb-4 ${colors[article.category]}`}>
-                      {categoryLabel[article.category]}
-                    </span>
-                    <Link href={`/categories/${article.category}/${article.slug}`}>
-                      <h3 className="text-xl font-bold text-white hover:text-brand-cyan transition-colors mb-3 leading-snug line-clamp-2">
-                        {article.title}
-                      </h3>
+            <div>
+              <h2 className="font-serif text-[24px] font-bold tracking-[-0.02em]">
+                Popular resources
+              </h2>
+              <ul className="mt-5 space-y-3">
+                {popularResources.map((resource) => (
+                  <li key={resource.label}>
+                    <Link href={resource.href} className="text-link flex items-center gap-2 text-[14px]">
+                      <FileText className="h-4 w-4" />
+                      {resource.label}
                     </Link>
-                    <p className="text-sm text-slate-400 mb-6 line-clamp-3 leading-relaxed">
-                      {article.description}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-900">
-                    <span className="text-xs text-slate-500 font-medium">
-                      {new Date(article.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      })}
-                    </span>
-                    <Link
-                      href={`/categories/${article.category}/${article.slug}`}
-                      className="text-xs font-bold text-brand-cyan group-hover:text-cyan-300 transition-colors flex items-center gap-1"
-                    >
-                      Read Guide <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
         </div>
       </section>
     </div>

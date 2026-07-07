@@ -1,72 +1,45 @@
 import Link from "next/link";
-import { ArrowLeft, Scale } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Terms of Service | Neutral Overdrive",
-  description: "Terms and conditions governing the copying, licensing, and usage of our AI prompt templates and orchestration code.",
+  title: "Terms of Service",
+  description: "Terms governing Neutral Overdrive guides, templates, code snippets, and downloads.",
 };
 
 export default function TermsPage() {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <Link
-        href="/"
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white transition-colors mb-8 uppercase tracking-wider"
-      >
-        <ArrowLeft className="h-3.5 w-3.5" /> Back to Home
-      </Link>
+    <div>
+      <section className="site-container border-b border-[var(--border)] py-9 md:py-12">
+        <Link href="/" className="text-link inline-flex items-center gap-2 text-[14px]">
+          <ArrowLeft className="h-4 w-4" />
+          Back to home
+        </Link>
+        <h1 className="display-heading mt-8 text-[clamp(42px,6vw,72px)]">
+          Terms of service.
+        </h1>
+        <p className="mt-4 text-[13px] text-[var(--muted)]">Last updated: July 6, 2026</p>
+      </section>
 
-      <article className="bg-[#0a0f1d]/40 border border-slate-900 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-sm">
-        <header className="mb-8 pb-6 border-b border-slate-900 flex items-center gap-3">
-          <span className="p-2 bg-brand-violet/10 border border-brand-violet/20 rounded-lg text-brand-violet">
-            <Scale className="h-5 w-5" />
-          </span>
-          <div>
-            <h1 className="text-3xl font-extrabold text-white">Terms of Service</h1>
-            <p className="text-xs text-slate-500 mt-1">Last Updated: July 6, 2026</p>
-          </div>
-        </header>
-
-        <div className="prose prose-invert max-w-none text-slate-300 leading-relaxed space-y-6">
-          <p>
-            Welcome to Neutral Overdrive. These terms and conditions outline the rules and regulations for the use of Neutral Overdrive&apos;s Website, located at neutraloverdrive.com.
-          </p>
-          <p>
-            By accessing this website, we assume you accept these terms and conditions. Do not continue to use Neutral Overdrive if you do not agree to take all of the terms and conditions stated on this page.
-          </p>
-
-          <h2 className="text-xl font-bold text-white mt-8">License & Code Copying</h2>
-          <p>
-            Unless otherwise stated, Neutral Overdrive and/or its licensors own the intellectual property rights for all material on Neutral Overdrive. All intellectual property rights are reserved. You may access this from Neutral Overdrive for your own personal use subjected to restrictions set in these terms and conditions.
-          </p>
-          <p>
-            However, we actively encourage code deployment! You are explicitly permitted to:
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Copy and customize our prompt engineering formulas for your generative AI runs.</li>
-            <li>Use the orchestration code snippets (such as the Python/Javascript Antigravity SDK templates) in your personal and commercial software applications.</li>
-          </ul>
-          <p>
-            You must not:
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Republish our full tutorial articles or sell them as premium course content without written consent.</li>
-            <li>Scrape site data to train competing AI models or content generation networks.</li>
-          </ul>
-
-          <h2 className="text-xl font-bold text-white mt-8">Disclaimer of Liability</h2>
-          <p>
-            The prompt configurations, API costs, and system setups provided here are for educational purposes. We do not guarantee that the prompts will produce identical visual layouts or output tokens on every API run due to the stochastic nature of Large Language Models (LLMs).
-          </p>
-          <p>
-            Neutral Overdrive will not be held liable for any API billing charges, model behavior alterations, or structural failures that result from deploying the code patterns shown on this website.
-          </p>
-
-          <h2 className="text-xl font-bold text-white mt-8">Governing Law</h2>
-          <p>
-            These terms and conditions are governed by and construed in accordance with the laws, and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.
-          </p>
-        </div>
+      <article className="site-container page-section prose prose-neutral max-w-[820px]">
+        <p>
+          By using Neutral Overdrive, you agree to these terms. If you do not agree, do not use the site.
+        </p>
+        <h2>Guides and templates</h2>
+        <p>
+          You may use code snippets, prompts, and templates in personal or commercial work unless a specific download says otherwise. You may not republish full articles or resell site content as your own product.
+        </p>
+        <h2>Accuracy and risk</h2>
+        <p>
+          AI models, APIs, pricing, and platform behavior change. Guides and calculators are educational references, not guarantees. You are responsible for testing workflows and monitoring vendor costs.
+        </p>
+        <h2>Downloads</h2>
+        <p>
+          Downloads are provided as-is. Review code before use, secure your own API keys, and test in a safe environment.
+        </p>
+        <h2>Governing terms</h2>
+        <p>
+          We may update these terms as the site, sponsorship model, and downloadable materials change.
+        </p>
       </article>
     </div>
   );
