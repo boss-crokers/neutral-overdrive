@@ -1,22 +1,20 @@
+import Link from "next/link";
 import { Mail } from "lucide-react";
 
 const AUTHORS = {
   "Pete Overdrive": {
     role: "Workflow editor",
     bio: "Writes practical guides on model APIs, retrieval systems, structured output, and agent workflows.",
-    email: "mailto:pete@neutraloverdrive.com",
     initials: "PO",
   },
   "Sofia Vance": {
     role: "Visual systems editor",
     bio: "Edits prompt guides for image generation, visual consistency, creative direction, and production workflows.",
-    email: "mailto:sofia@neutraloverdrive.com",
     initials: "SV",
   },
   "Neutral Overdrive Team": {
     role: "Editorial team",
     bio: "Maintains tested guides, comparison notes, templates, and tools for AI builders and operators.",
-    email: "mailto:ads@neutraloverdrive.com",
     initials: "NO",
   },
 };
@@ -41,13 +39,13 @@ export default function AuthorBio({ authorName = "Neutral Overdrive Team" }) {
           <p className="mt-3 max-w-[66ch] text-[14px] leading-6 text-[var(--muted)]">
             {author.bio}
           </p>
-          <a
-            href={author.email}
+          <Link
+            href="/advertise"
             className="mt-4 inline-flex items-center gap-2 text-[13px] font-semibold text-[var(--accent)] hover:text-[var(--accent-hover)]"
           >
             <Mail className="h-4 w-4" />
             Contact editor
-          </a>
+          </Link>
         </div>
       </div>
     </section>
