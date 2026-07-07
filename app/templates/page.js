@@ -28,6 +28,16 @@ const templates = [
     detail: "Includes 50 prompt patterns and parameter notes.",
   },
   {
+    title: "AI Compliance & System Audit Checklist",
+    type: "Audit framework",
+    description:
+      "A structured framework to audit AI agent loops for data leakage, user consent compliance, and model input security.",
+    price: "Free",
+    originalPrice: "$24.99",
+    href: "/downloads/ai-compliance-audit-checklist.md",
+    detail: "Includes standard system prompt guardrails, data retention worksheets, and risk scoring matrices.",
+  },
+  {
     title: "Multi-Agent RAG Orchestrator",
     type: "Template plan",
     description:
