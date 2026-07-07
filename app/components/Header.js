@@ -27,6 +27,13 @@ const SEARCH_DATABASE = [
     category: "agentic-workflows",
     categoryLabel: "Agentic Workflows",
     description: "Design production-grade RAG systems using multi-agent routing structures in Antigravity."
+  },
+  {
+    title: "Strict Structured JSON Outputs in Gemini: Schema Enforcement using Python",
+    slug: "gemini-json-schema-enforcement",
+    category: "agentic-workflows",
+    categoryLabel: "Agentic Workflows",
+    description: "Enforce strict JSON schemas on Gemini API outputs using Pydantic models and Python configurations."
   }
 ];
 
