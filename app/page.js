@@ -71,7 +71,7 @@ function FeaturedGuide({ article }) {
 
 function GraphitePreview({ articles }) {
   return (
-    <div className="graphite-preview pointer-events-none absolute bottom-[-112px] right-[-38px] hidden w-[440px] rounded-[8px] border border-[#344044] bg-[#101619] p-5 text-[#f3f5f3] shadow-[0_18px_45px_rgba(0,0,0,0.32)] xl:block">
+    <div className="graphite-preview pointer-events-none absolute -bottom-16 -right-12 hidden w-[440px] rounded-[8px] border border-[#344044] bg-[#101619] p-5 text-[#f3f5f3] shadow-[0_18px_45px_rgba(0,0,0,0.32)] xl:block">
       <div className="flex items-start justify-between">
         <div className="text-[15px] font-black leading-[0.9] tracking-[-0.04em]">
           <span className="block">NEUTRAL</span>
@@ -165,15 +165,15 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="media-frame aspect-[2.45/1.08]">
+          <div className="media-frame aspect-[2.45/1.08] relative">
             <img
               src="/neutral-overdrive-workspace.png"
               alt="Laptop on a bright desk showing an AI workflow document."
               className="h-full w-full object-cover"
             />
+            <GraphitePreview articles={articles} />
           </div>
         </div>
-        <GraphitePreview articles={articles} />
       </section>
 
       <section id="featured-guides" className="site-container page-section">
