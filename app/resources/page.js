@@ -16,11 +16,12 @@ const resourceCategories = [
     ],
   },
   {
-    title: "Infrastructure",
+    title: "Infrastructure & Automation",
     items: [
       ["Vercel", "Next.js hosting and frontend deployments.", "https://vercel.com"],
       ["Supabase", "Postgres, pgvector, auth, and storage for AI products.", "https://supabase.com"],
       ["Qdrant", "Vector search for retrieval and agent memory.", "https://qdrant.tech"],
+      ["Make.com", "No-code workflow automation and AI integrations.", "https://www.make.com/en/register?pc=neutraloverdrive"],
     ],
   },
   {
