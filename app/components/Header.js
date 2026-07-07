@@ -1,0 +1,246 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Search, Image, Video, Cpu, Menu, X, ArrowRight, Calculator, Megaphone, Zap } from "lucide-react";
+
+// Shared array of article references for simple client-side search
+const SEARCH_DATABASE = [
+  {
+    title: "Midjourney v6 Mastery: Advanced Photorealism & Aspect Ratios",
+    slug: "midjourney-mastery",
+    category: "image-generation",
+    categoryLabel: "Image Gen",
+    description: "Unlock ultra-realistic photographic workflows using Midjourney v6 stylization parameters."
+  },
+  {
+    title: "Kling AI Cinema Workflows: Camera Pan & Zoom Control",
+    slug: "kling-video-techniques",
+    category: "video-generation",
+    categoryLabel: "Video Gen",
+    description: "Architect perfect cinematic panning shots and consistent actor styling using Kling AI."
+  },
+  {
+    title: "Agentic RAG Orchestration: Multi-Agent Gemini & Antigravity SDK",
+    slug: "agentic-rag-orchestration",
+    category: "agentic-workflows",
+    categoryLabel: "Agentic Workflows",
+    description: "Design production-grade RAG systems using multi-agent routing structures in Antigravity."
+  }
+];
+
+export default function Header() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchRef = useRef(null);
+
+  // Close menus on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setSearchFocused(false);
+    setSearchQuery("");
+  }, [pathname]);
+
+  // Handle click outside search results
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Update search results
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const query = searchQuery.toLowerCase();
+    const filtered = SEARCH_DATABASE.filter(
+      (item) =>
+        item.title.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query) ||
+        item.category.toLowerCase().includes(query)
+    );
+    setSearchResults(filtered);
+  }, [searchQuery]);
+
+  const navLinks = [
+    { href: "/categories/image-generation", label: "Image Gen", icon: Image },
+    { href: "/categories/video-generation", label: "Video Gen", icon: Video },
+    { href: "/categories/agentic-workflows", label: "Agentic Workflows", icon: Cpu },
+    { href: "/tools/token-calculator", label: "Calculator", icon: Calculator },
+    { href: "/resources", label: "Resources", icon: Zap },
+    { href: "/advertise", label: "Sponsor Us", icon: Megaphone }
+  ];
+
+  return (
+    <header className="sticky top-0 z-50 w-full glass-panel border-b border-dark-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 gap-4">
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="h-8 w-8 rounded-lg bg-gradient-to-tr from-brand-cyan to-brand-violet flex items-center justify-center font-bold text-black text-lg shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                N
+              </span>
+              <span className="font-sans font-extrabold text-xl tracking-tight text-white group-hover:text-brand-cyan transition-colors">
+                NEUTRAL<span className="text-brand-violet bg-clip-text">OVERDRIVE</span>
+              </span>
+            </Link>
+          </div>
+
+          {/* Search Bar - Center */}
+          <div ref={searchRef} className="hidden md:block flex-1 max-w-md relative">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-slate-400" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setSearchFocused(true)}
+                placeholder="Search workflows, prompts, APIs..."
+                className="w-full pl-10 pr-4 py-1.5 bg-slate-950/60 border border-slate-800 rounded-full text-slate-200 text-sm focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan/20 transition-all placeholder:text-slate-500"
+              />
+            </div>
+
+            {/* Search Results Dropdown */}
+            {searchFocused && searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl z-50">
+                <div className="p-2 border-b border-slate-800/60 text-xs font-semibold text-slate-500 tracking-wider uppercase">
+                  Matching Workflows ({searchResults.length})
+                </div>
+                <div className="max-h-80 overflow-y-auto divide-y divide-slate-800/40">
+                  {searchResults.map((result) => (
+                    <button
+                      key={result.slug}
+                      onClick={() => router.push(`/categories/${result.category}/${result.slug}`)}
+                      className="w-full text-left p-3 hover:bg-slate-800/50 transition-colors flex flex-col gap-0.5 group"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-brand-cyan font-medium px-2 py-0.5 bg-brand-cyan/10 rounded-full">
+                          {result.categoryLabel}
+                        </span>
+                        <span className="text-[10px] text-slate-500 group-hover:text-slate-300 transition-colors flex items-center gap-1">
+                          Read Tutorial <ArrowRight className="h-3 w-3" />
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors line-clamp-1 mt-1">
+                        {result.title}
+                      </h4>
+                      <p className="text-xs text-slate-400 line-clamp-1">
+                        {result.description}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Navigation Links - Desktop */}
+          <nav className="hidden md:flex items-center gap-6">
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              const isActive = pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`flex items-center gap-1.5 text-sm font-semibold transition-colors py-1 ${
+                    isActive
+                      ? "text-brand-cyan border-b-2 border-brand-cyan"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Actions / Mobile Menu Button */}
+          <div className="flex items-center gap-2 md:hidden">
+            {/* Mobile Search Button or general Menu button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 text-slate-400 hover:text-white rounded-lg transition-colors focus:outline-none"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu Panel */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t border-dark-border bg-slate-950/95 backdrop-blur-xl">
+          <div className="p-4 space-y-4">
+            {/* Mobile Search input */}
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-slate-400" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search tutorials..."
+                className="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-200 text-sm focus:outline-none focus:border-brand-cyan"
+              />
+              {/* Mobile Search results inline */}
+              {searchResults.length > 0 && (
+                <div className="mt-2 bg-slate-900 border border-slate-800 rounded-lg overflow-hidden divide-y divide-slate-800/40">
+                  {searchResults.map((result) => (
+                    <Link
+                      key={result.slug}
+                      href={`/categories/${result.category}/${result.slug}`}
+                      className="block p-3 hover:bg-slate-800/30"
+                    >
+                      <div className="text-xs text-brand-cyan font-medium">{result.categoryLabel}</div>
+                      <div className="text-sm font-semibold text-white">{result.title}</div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Navigation links */}
+            <nav className="flex flex-col gap-2">
+              {navLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`flex items-center gap-3 p-3 rounded-xl transition-all ${
+                      isActive
+                        ? "bg-brand-cyan/10 text-brand-cyan font-semibold border border-brand-cyan/20"
+                        : "text-slate-300 hover:bg-slate-900"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
