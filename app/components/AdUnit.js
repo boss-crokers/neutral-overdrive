@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
+// Set to false to hide all placeholder ad slots until you have real ad code scripts
+const SHOW_MOCK_ADS = false;
+
 export default function AdUnit({ type = "in-article-banner" }) {
   const [visible, setVisible] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -12,6 +15,7 @@ export default function AdUnit({ type = "in-article-banner" }) {
     setMounted(true);
   }, []);
 
+  if (!SHOW_MOCK_ADS) return null;
   if (!visible || !mounted) return null;
 
   // Render ad units based on their type
