@@ -6,6 +6,7 @@ export const articleImages = {
   "kling-vs-luma-video-comparison": "/kling-vs-luma.jpg",
   "best-vector-databases-gemini-agentic-loops": "/vector-databases.jpg",
   "ai-compliance-framework": "/agentic-flow.jpg",
+  "automate-invoicing-make-sheets": "/agentic-flow.jpg",
 };
 
 export const categoryMeta = {
