@@ -114,7 +114,7 @@ export default function Header() {
               <img
                 src="/logo.png"
                 alt="Neutral Overdrive Logo"
-                className="h-8 w-8 rounded-lg object-cover shadow-[0_0_15px_rgba(6,182,212,0.3)] border border-slate-900 group-hover:scale-105 transition-transform duration-300"
+                className="h-9 w-9 rounded-lg object-cover shadow-[0_0_15px_rgba(6,182,212,0.3)] border border-slate-900 group-hover:scale-105 transition-transform duration-300"
               />
               <span className="font-sans font-extrabold text-xl tracking-tight text-white group-hover:text-brand-cyan transition-colors">
                 NEUTRAL<span className="text-brand-violet bg-clip-text">OVERDRIVE</span>
