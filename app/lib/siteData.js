@@ -5,6 +5,7 @@ export const articleImages = {
   "gemini-json-schema-enforcement": "/gemini-json-schema.jpg",
   "kling-vs-luma-video-comparison": "/kling-vs-luma.jpg",
   "best-vector-databases-gemini-agentic-loops": "/vector-databases.jpg",
+  "ai-compliance-framework": "/agentic-flow.jpg",
 };
 
 export const categoryMeta = {
