@@ -12,7 +12,9 @@ const TEMPLATES = [
     title: "Gemini 1.5 Pro Agent Loop Script",
     category: "Python Script",
     description: "Production-grade agent orchestrator script featuring structured Pydantic schemas, automated tool call integrations, and context token fallback handlers.",
-    price: "$19.99",
+    price: "FREE",
+    originalPrice: "$19.99",
+    isFree: true,
     checkoutUrl: "/downloads/gemini-agent-loop.zip",
     features: [
       "OpenAPI-compatible JSON Schema generator",
@@ -29,7 +31,9 @@ const TEMPLATES = [
     title: "Midjourney v6 Photorealism Vault",
     category: "Prompt Pack",
     description: "50+ verified prompt formulas for ultra-realistic studio lighting, virtual camera lenses (anamorphic, macro), and style stylization coefficients.",
-    price: "$9.99",
+    price: "FREE",
+    originalPrice: "$9.99",
+    isFree: true,
     checkoutUrl: "/downloads/midjourney-photorealism-vault.md",
     features: [
       "Camera parameter templates (Shutter speed, ISO, Focal lengths)",
@@ -47,6 +51,7 @@ const TEMPLATES = [
     category: "Python/Node Template",
     description: "Ready-to-use RAG script featuring hierarchical agent routers, Pinecone/Supabase embeddings builders, and semantic query context filters.",
     price: "$29.99",
+    isFree: false,
     checkoutUrl: "/advertise",
     features: [
       "Pinecone & pgvector index automation",
@@ -141,9 +146,16 @@ export default function TemplatesPage() {
                       <span className="text-xs text-slate-500 font-bold block uppercase tracking-wider">
                         Price
                       </span>
-                      <span className="text-2xl font-black text-white">
-                        {tpl.price}
-                      </span>
+                      <div className="flex items-baseline gap-2">
+                        {tpl.originalPrice && (
+                          <span className="text-xs text-slate-500 line-through font-semibold">
+                            {tpl.originalPrice}
+                          </span>
+                        )}
+                        <span className={`text-xl sm:text-2xl font-black ${tpl.isFree ? "text-emerald-400 animate-pulse" : "text-white"}`}>
+                          {tpl.price}
+                        </span>
+                      </div>
                     </div>
                     <Link
                       href={tpl.checkoutUrl}
