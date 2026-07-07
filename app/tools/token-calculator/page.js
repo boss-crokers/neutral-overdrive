@@ -20,9 +20,9 @@ const MODELS = [
   { id: "claude-sonnet-5", name: "Claude Sonnet 5", provider: "Anthropic", inputCostPerMillion: 2, outputCostPerMillion: 10, note: "Intro rate through Aug 31, 2026" },
   { id: "claude-haiku-4.5", name: "Claude Haiku 4.5", provider: "Anthropic", inputCostPerMillion: 1, outputCostPerMillion: 5, note: "Fastest Claude tier" },
   { id: "gemini-3.5-flash", name: "Gemini 3.5 Flash", provider: "Google", inputCostPerMillion: 1.5, outputCostPerMillion: 9, note: "Standard paid tier" },
-  { id: "gemini-3.1-pro-preview", name: "Gemini 3.1 Pro Preview", provider: "Google", inputCostPerMillion: 2, outputCostPerMillion: 12, note: "Standard tier, prompts <= 200K" },
-  { id: "gemini-3.1-flash-lite", name: "Gemini 3.1 Flash-Lite", provider: "Google", inputCostPerMillion: 0.25, outputCostPerMillion: 1.5, note: "Standard text, image, and video rate" },
-  { id: "gemini-2.5-flash", name: "Gemini 2.5 Flash", provider: "Google", inputCostPerMillion: 0.3, outputCostPerMillion: 2.5, note: "Standard text, image, and video rate" },
+  { id: "gemini-3.1-pro", name: "Gemini 3.1 Pro", provider: "Google", inputCostPerMillion: 2, outputCostPerMillion: 12, note: "Standard tier, prompts <= 200K" },
+  { id: "gemini-3-flash", name: "Gemini 3 Flash", provider: "Google", inputCostPerMillion: 0.5, outputCostPerMillion: 3, note: "Fast text, image, and video rate" },
+  { id: "gemini-3.1-flash-lite", name: "Gemini 3.1 Flash-Lite", provider: "Google", inputCostPerMillion: 0.25, outputCostPerMillion: 1.5, note: "Ultra-low cost text API" },
 ];
 
 function NumberField({ label, value, min, max, step, onChange }) {
