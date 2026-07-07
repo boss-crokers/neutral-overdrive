@@ -69,77 +69,6 @@ function FeaturedGuide({ article }) {
   );
 }
 
-function GraphitePreview({ articles }) {
-  return (
-    <div className="graphite-preview pointer-events-none absolute -bottom-16 -right-12 hidden w-[440px] rounded-[8px] border border-[#344044] bg-[#101619] p-5 text-[#f3f5f3] shadow-[0_18px_45px_rgba(0,0,0,0.32)] xl:block">
-      <div className="flex items-start justify-between">
-        <div className="text-[15px] font-black leading-[0.9] tracking-[-0.04em]">
-          <span className="block">NEUTRAL</span>
-          <span className="block">OVERDRIVE</span>
-        </div>
-        <div className="flex gap-5 text-[8px] text-[#c3cbcd]">
-          <span>Guides</span>
-          <span>Comparisons</span>
-          <span>Templates</span>
-          <span>Tools</span>
-        </div>
-      </div>
-      <div className="mt-6 grid grid-cols-[1fr_1.1fr] gap-5">
-        <div>
-          <h3 className="font-serif text-[20px] font-bold leading-[1.05] tracking-[-0.03em]">
-            Practical AI workflow guides for people shipping real work.
-          </h3>
-          <p className="mt-3 text-[9px] leading-4 text-[#b6bec0]">
-            Step-by-step tutorials, model comparisons, prompt templates, and developer tools.
-          </p>
-        </div>
-        <div className="overflow-hidden rounded-[5px] border border-[#344044]">
-          <img src="/neutral-overdrive-workspace.png" alt="" className="h-full w-full object-cover" />
-        </div>
-      </div>
-      <div className="mt-5 grid grid-cols-[1.2fr_1fr_1fr] gap-4 border-t border-[#344044] pt-4">
-        <div>
-          <p className="text-[10px] font-semibold">Featured guides</p>
-          <div className="mt-3 space-y-3">
-            {articles.slice(0, 3).map((article) => (
-              <div key={article.slug} className="grid grid-cols-[40px_1fr] gap-2">
-                <img
-                  src={articleImages[article.slug] || "/neutral-overdrive-workspace.png"}
-                  alt=""
-                  className="h-7 w-full rounded-[3px] object-cover"
-                />
-                <div>
-                  <p className="line-clamp-1 text-[8px] font-semibold">{article.title}</p>
-                  <p className="mt-1 text-[7px] text-[#8f9b9f]">{formatDate(article.date)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold">Browse by topic</p>
-          <div className="mt-3 space-y-2">
-            {topics.slice(0, 6).map((topic) => (
-              <div key={topic.name} className="flex justify-between border-b border-[#263237] pb-1 text-[8px]">
-                <span>{topic.name}</span>
-                <span className="text-[#8f9b9f]">{topic.count}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <p className="text-[10px] font-semibold">Popular resources</p>
-          <div className="mt-3 space-y-2 text-[8px] text-[#b6d6ff]">
-            {popularResources.slice(0, 5).map((resource) => (
-              <p key={resource.label}>{resource.label}</p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const articles = getAllArticles();
   const featured = articles.slice(0, 4);
@@ -171,7 +100,6 @@ export default function Home() {
               alt="Laptop on a bright desk showing an AI workflow document."
               className="h-full w-full object-cover"
             />
-            <GraphitePreview articles={articles} />
           </div>
         </div>
       </section>
