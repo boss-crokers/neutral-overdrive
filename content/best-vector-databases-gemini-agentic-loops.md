@@ -9,7 +9,7 @@ prompts:
   dbPrompt:
     imageUrl: "/vector-databases.jpg"
     promptText: "Diagram of a high-tech multi-dimensional vector space model. X, Y, Z axes mapping glowing data clusters, nested server index layouts, holographic tech aesthetic."
-    model: "Gemini 1.5 Pro / Vector DB"
+    model: "Gemini 3.1 Pro / Vector DB"
     aspectRatio: "16:9"
     stylize: "Holographic"
     seed: "991827364"

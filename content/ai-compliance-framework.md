@@ -9,7 +9,7 @@ prompts:
   main:
     imageUrl: "/agentic-flow.jpg"
     promptText: "Design a secure enterprise AI agent loop architecture diagram. Show prompt input filtering, PII scrubbing middleware, model guardrails, and sandboxed execution boxes connected linearly."
-    model: "Gemini 1.5 Pro"
+    model: "Gemini 3.1 Pro"
     aspectRatio: "16:9"
     stylize: "Technical Diagram"
     seed: "392810293"

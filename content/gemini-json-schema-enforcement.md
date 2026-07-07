@@ -9,7 +9,7 @@ prompts:
   main:
     imageUrl: "/gemini-json-schema.jpg"
     promptText: "Extract the system status parameters, database health states, user session identifiers, and active port configs into the exact structured schema. All values must match strict data formats, omitting any text outside the JSON boundaries."
-    model: "Gemini 1.5 Pro"
+    model: "Gemini 3.1 Pro"
     aspectRatio: "16:9"
     stylize: "Structured"
     seed: "109283742"
@@ -17,7 +17,7 @@ prompts:
 
 When integrating Large Language Models (LLMs) into production codebases, parsing free-text outputs is a major point of failure. If your code expects a structured JSON object but the model returns conversational text alongside it, your code will throw runtime errors.
 
-Using Google's Gemini 1.5 Pro or Flash, developers can set a `response_schema` directly in the API configurations. This forces the model to respond strictly in a JSON format that adheres to a predefined data structure, guaranteeing zero parsing exceptions in your agent loops.
+Using Google's Gemini 3.1 Pro or Flash, developers can set a `response_schema` directly in the API configurations. This forces the model to respond strictly in a JSON format that adheres to a predefined data structure, guaranteeing zero parsing exceptions in your agent loops.
 
 [[AdUnit: in-article-banner]]
 

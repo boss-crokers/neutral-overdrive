@@ -9,7 +9,7 @@ prompts:
   main:
     imageUrl: "/agentic-flow.jpg"
     promptText: "Design a clean workflow diagram showing Google Sheets connecting to a Make.com gear icon, which outputs a PDF document and sends an email via a Gmail mail icon."
-    model: "Gemini 1.5 Pro"
+    model: "Gemini 3.1 Pro"
     aspectRatio: "16:9"
     stylize: "Clean Diagram"
     seed: "482910482"

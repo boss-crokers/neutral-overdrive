@@ -8,7 +8,7 @@ export const metadata = {
 
 const templates = [
   {
-    title: "Gemini 1.5 Pro Agent Loop Script",
+    title: "Gemini 3.1 Pro Agent Loop Script",
     type: "Python script",
     description:
       "A starter loop for structured outputs, tool callbacks, and fallback handling in Gemini workflows.",
