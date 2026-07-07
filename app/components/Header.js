@@ -114,7 +114,7 @@ export default function Header() {
               <img
                 src="/logo.png"
                 alt="Neutral Overdrive Logo"
-                className="h-9 w-9 object-contain group-hover:scale-105 transition-transform duration-300"
+                className="h-12 w-12 object-contain group-hover:scale-105 transition-transform duration-300"
               />
               <span className="font-sans font-extrabold text-xl tracking-tight text-white group-hover:text-brand-cyan transition-colors">
                 NEUTRAL<span className="text-brand-violet bg-clip-text">OVERDRIVE</span>
@@ -123,7 +123,7 @@ export default function Header() {
           </div>
 
           {/* Search Bar - Center */}
-          <div ref={searchRef} className="hidden md:block flex-1 max-w-xl relative">
+          <div ref={searchRef} className="hidden md:block flex-1 min-w-[240px] lg:min-w-[320px] max-w-xl relative">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 text-slate-400" />
