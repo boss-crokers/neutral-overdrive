@@ -13,6 +13,7 @@ const TEMPLATES = [
     category: "Python Script",
     description: "Production-grade agent orchestrator script featuring structured Pydantic schemas, automated tool call integrations, and context token fallback handlers.",
     price: "$19.99",
+    checkoutUrl: "/downloads/gemini-agent-loop.zip",
     features: [
       "OpenAPI-compatible JSON Schema generator",
       "GenAI SDK wrapper scripts in Python",
@@ -29,6 +30,7 @@ const TEMPLATES = [
     category: "Prompt Pack",
     description: "50+ verified prompt formulas for ultra-realistic studio lighting, virtual camera lenses (anamorphic, macro), and style stylization coefficients.",
     price: "$9.99",
+    checkoutUrl: "/downloads/midjourney-photorealism-vault.md",
     features: [
       "Camera parameter templates (Shutter speed, ISO, Focal lengths)",
       "Vibrant cinematic lighting modifiers",
@@ -45,6 +47,7 @@ const TEMPLATES = [
     category: "Python/Node Template",
     description: "Ready-to-use RAG script featuring hierarchical agent routers, Pinecone/Supabase embeddings builders, and semantic query context filters.",
     price: "$29.99",
+    checkoutUrl: "/advertise",
     features: [
       "Pinecone & pgvector index automation",
       "Document chunking and embed pipeline (Gemini text-embedding-004)",
@@ -143,7 +146,8 @@ export default function TemplatesPage() {
                       </span>
                     </div>
                     <Link
-                      href="/advertise"
+                      href={tpl.checkoutUrl}
+                      download={tpl.checkoutUrl.endsWith(".zip") ? "gemini-agent-loop.zip" : undefined}
                       className="py-3 px-6 bg-gradient-to-tr from-brand-cyan to-brand-violet hover:from-cyan-400 hover:to-violet-500 text-black text-xs font-black rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-cyan-500/10 flex items-center gap-1.5"
                     >
                       Instant Download <ArrowRight className="h-4 w-4" />
