@@ -81,6 +81,11 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://neutraloverdrive.com/categories/agentic-workflows/ai-compliance-framework/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://neutraloverdrive.com/categories/agentic-workflows/best-vector-databases-gemini-agentic-loops/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
