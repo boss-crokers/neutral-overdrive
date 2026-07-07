@@ -6,25 +6,51 @@ import { Mail, CheckCircle, Sparkles } from "lucide-react";
 export default function NewsletterSignup({ title = "Subscribe to Prompt Injections" }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim() || !email.includes("@")) {
       setErrorMsg("Please enter a valid email address.");
       return;
     }
 
-    // Mock storage signup database
-    const existing = JSON.parse(localStorage.getItem("neutral_subscribers") || "[]");
-    if (!existing.includes(email)) {
-      existing.push(email);
-      localStorage.setItem("neutral_subscribers", JSON.stringify(existing));
-    }
-
-    setSubmitted(true);
-    setEmail("");
+    setLoading(true);
     setErrorMsg("");
+
+    try {
+      const response = await fetch("https://formspree.io/f/mdarjwbv", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      });
+
+      if (response.ok) {
+        // Cache locally in localStorage for backup
+        const existing = JSON.parse(localStorage.getItem("neutral_subscribers") || "[]");
+        if (!existing.includes(email)) {
+          existing.push(email);
+          localStorage.setItem("neutral_subscribers", JSON.stringify(existing));
+        }
+        setSubmitted(true);
+        setEmail("");
+      } else {
+        const data = await response.json();
+        if (data.errors && data.errors.length > 0) {
+          setErrorMsg(data.errors.map((err) => err.message).join(", "));
+        } else {
+          setErrorMsg("Oops! There was a problem submitting your email.");
+        }
+      }
+    } catch (err) {
+      setErrorMsg("Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,17 +90,19 @@ export default function NewsletterSignup({ title = "Subscribe to Prompt Injectio
                 <input
                   type="email"
                   value={email}
+                  disabled={loading}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address"
                   required
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-850 focus:border-brand-cyan text-slate-200 text-sm rounded-xl focus:outline-none placeholder:text-slate-600"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950/80 border border-slate-850 focus:border-brand-cyan text-slate-200 text-sm rounded-xl focus:outline-none placeholder:text-slate-600 disabled:opacity-50"
                 />
               </div>
               <button
                 type="submit"
-                className="py-2.5 px-6 bg-gradient-to-tr from-brand-cyan to-brand-violet hover:from-cyan-400 hover:to-violet-500 text-black text-xs font-black rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-cyan-500/20"
+                disabled={loading}
+                className="py-2.5 px-6 bg-gradient-to-tr from-brand-cyan to-brand-violet hover:from-cyan-400 hover:to-violet-500 text-black text-xs font-black rounded-xl uppercase tracking-wider transition-all shadow-lg hover:shadow-cyan-500/20 disabled:opacity-50 min-w-[110px] text-center"
               >
-                Subscribe
+                {loading ? "Adding..." : "Subscribe"}
               </button>
             </form>
             {errorMsg && (
