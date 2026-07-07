@@ -96,8 +96,8 @@ export default function ResourcesPage() {
             <h1 className="text-3xl font-extrabold text-white mb-3">
               Recommended Developer Tools
             </h1>
-            <p className="text-sm text-slate-400 max-w-2xl leading-relaxed">
-              We test and review every resource listed below. By choosing to use these platforms through our affiliate links, you help support the creation of our free prompt engineering tutorials at no extra cost to you.
+            <p className="text-xs text-slate-400 max-w-2xl leading-relaxed">
+              <strong>Affiliate Disclosure:</strong> Some links on this page are affiliate referral links. If you click through and create an account or make a purchase, we may receive a commission at no additional cost to you. We only recommend high-signal tools that we actively test and trust in our production workflows.
             </p>
           </header>
 

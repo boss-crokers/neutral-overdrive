@@ -171,6 +171,11 @@ export default function TemplatesPage() {
           })}
         </div>
 
+        {/* Legal Software Disclaimer */}
+        <p className="text-[10px] text-slate-500 max-w-4xl mx-auto mt-8 text-center leading-relaxed">
+          * Software Disclaimer: All downloadable scripts, parameters, and prompts are provided &quot;as is&quot; without warranties of any kind. Neutral Overdrive does not guarantee model performance, compatibility with local host configurations, or API stability. Users are solely responsible for testing files in a sandbox environment and securing their own API keys.
+        </p>
+
         {/* Support Banner */}
         <div className="mt-16 bg-[#0a0f1d]/40 border border-slate-900 rounded-3xl p-8 text-center relative overflow-hidden max-w-4xl mx-auto">
           <div className="absolute -top-16 -left-16 w-32 h-32 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none" />

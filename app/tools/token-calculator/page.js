@@ -267,10 +267,14 @@ export default function TokenCalculator() {
                 <span className="text-[10px] text-slate-500 font-mono mt-2">
                   Projected across {runsPerMonth.toLocaleString()} automated calls
                 </span>
-              </div>
             </div>
           </div>
+          {/* Disclaimer Footnote */}
+          <p className="text-[10px] text-slate-500 max-w-3xl mt-6 leading-relaxed">
+            * Disclaimer: Calculations are estimates only based on standard API list rates. Actual API billing depends on vendor-specific rules, prompt caching, prompt length metrics, and code loop execution. Neutral Overdrive is not liable for cloud provider billing spikes, service interruptions, or software outcomes.
+          </p>
         </div>
+      </div>
 
         {/* Side Advertisement Slot */}
         <aside className="w-full lg:w-[300px] flex-shrink-0 flex flex-col items-center gap-6">
