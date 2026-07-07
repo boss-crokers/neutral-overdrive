@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Search, Image, Video, Cpu, Menu, X, ArrowRight, Calculator, Megaphone, Zap } from "lucide-react";
+import { Search, Image, Video, Cpu, Menu, X, ArrowRight, Calculator, Megaphone, Zap, Layers } from "lucide-react";
 
 // Shared array of article references for simple client-side search
 const SEARCH_DATABASE = [
@@ -99,6 +99,7 @@ export default function Header() {
     { href: "/categories/video-generation", label: "Video Gen", icon: Video },
     { href: "/categories/agentic-workflows", label: "Agentic Workflows", icon: Cpu },
     { href: "/tools/token-calculator", label: "Calculator", icon: Calculator },
+    { href: "/templates", label: "Templates", icon: Layers },
     { href: "/resources", label: "Resources", icon: Zap },
     { href: "/advertise", label: "Sponsor Us", icon: Megaphone }
   ];
