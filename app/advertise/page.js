@@ -8,10 +8,13 @@ const packages = [
   ["Article sponsor", "A clearly labeled sponsor placement near relevant guides."],
   ["Newsletter sponsor", "A sponsor mention in the weekly guide digest."],
   ["Resource listing", "A reviewed listing in the resource directory."],
+  ["Custom workflow consultation", "Let our team audit your operations and build custom AI agent loops or private document-search systems tailored to your business."],
 ];
 
 export default function AdvertisePage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,10 +22,39 @@ export default function AdvertisePage() {
     message: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!formData.name || !formData.email) return;
-    setFormSubmitted(true);
+
+    setIsSubmitting(true);
+    setErrorMsg("");
+
+    try {
+      const response = await fetch("https://formspree.io/f/mdarjwbv", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          _subject: `Neutral Overdrive Business/Sponsor Inquiry: ${formData.company || formData.name}`,
+        }),
+      });
+
+      if (response.ok) {
+        setFormSubmitted(true);
+      } else {
+        setErrorMsg("Failed to send inquiry. Please try again or email us directly at info@gtimports.net.");
+      }
+    } catch (err) {
+      setErrorMsg("An network error occurred. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -36,7 +68,7 @@ export default function AdvertisePage() {
           Reach people building AI workflows.
         </h1>
         <p className="body-copy mt-5 max-w-[720px] text-[17px]">
-          Sponsor practical guides, templates, and tools read by operators who compare models, test prompts, and ship AI-enabled work.
+          Sponsor practical guides, templates, and tools, or inquire about custom AI development for your enterprise operations.
         </p>
       </section>
 
@@ -63,7 +95,7 @@ export default function AdvertisePage() {
                   Inquiry received.
                 </h2>
                 <p className="body-copy mt-3">
-                  We will reply at {formData.email} with availability and fit.
+                  Thank you! We will reply at {formData.email} with availability and fit.
                 </p>
               </div>
             ) : (
@@ -71,6 +103,9 @@ export default function AdvertisePage() {
                 <h2 className="font-serif text-[30px] font-bold tracking-[-0.02em]">
                   Send an inquiry
                 </h2>
+                {errorMsg && (
+                  <p className="text-[14px] text-red-500 font-semibold">{errorMsg}</p>
+                )}
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block text-[13px] font-semibold">
                     Name
@@ -101,16 +136,22 @@ export default function AdvertisePage() {
                   />
                 </label>
                 <label className="block text-[13px] font-semibold">
-                  What would you like to sponsor?
+                  What would you like to sponsor or build?
                   <textarea
                     rows="5"
+                    required
                     value={formData.message}
                     onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+                    placeholder="Tell us about your brand, budget, or custom workflow ideas..."
                     className="theme-input mt-2 w-full resize-none px-3 py-3"
                   />
                 </label>
-                <button type="submit" className="button-primary">
-                  Submit inquiry
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="button-primary disabled:opacity-50"
+                >
+                  {isSubmitting ? "Sending..." : "Submit inquiry"}
                 </button>
               </form>
             )}
