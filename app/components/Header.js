@@ -114,7 +114,7 @@ export default function Header() {
               <img
                 src="/logo.png"
                 alt="Neutral Overdrive Logo"
-                className="h-12 w-12 object-contain group-hover:scale-105 transition-transform duration-300"
+                className="h-14 w-14 object-contain group-hover:scale-105 transition-transform duration-300"
               />
               <span className="font-sans font-extrabold text-xl tracking-tight text-white group-hover:text-brand-cyan transition-colors">
                 NEUTRAL<span className="text-brand-violet bg-clip-text">OVERDRIVE</span>

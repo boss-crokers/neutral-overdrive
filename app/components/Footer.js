@@ -10,7 +10,7 @@ export default function Footer() {
             <img
               src="/logo.png"
               alt="Neutral Overdrive Logo"
-              className="h-8 w-8 object-contain"
+              className="h-10 w-10 object-contain"
             />
             <span className="font-sans font-extrabold text-sm tracking-tight text-white">
               NEUTRAL<span className="text-brand-violet">OVERDRIVE</span>
