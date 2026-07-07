@@ -1,5 +1,6 @@
 {
   "name": "neutral-overdrive",
+  "main": "./worker.js",
   "assets": {
     "directory": "./out"
   }
