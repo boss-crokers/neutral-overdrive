@@ -17,7 +17,7 @@ prompts:
 
 Building autonomous agent systems requires giving your agents long-term memory. When using the Gemini API for agent loops, storing knowledge contexts, past chat history, and document index nodes in a dedicated vector database is essential for fast semantic lookup.
 
-In this guide, we compare the top three vector storage solutions—**Pinecone**, **Supabase (pgvector)**, and **Qdrant**—to determine which database is the best fit for your agentic applications.
+In this guide, we compare the top three vector storage solutions—[Pinecone](https://pinecone.io/?ref=neutraloverdrive), [Supabase (pgvector)](https://supabase.com/?ref=neutraloverdrive), and [Qdrant](https://qdrant.tech/?ref=neutraloverdrive)—to determine which database is the best fit for your agentic applications.
 
 [[AdUnit: in-article-banner]]
 
@@ -90,4 +90,10 @@ print("Vector successfully indexed in Pinecone serverless.")
 *   **Choose Pinecone if:** You are deploying a large-scale, high-concurrency production agent that needs instant serverless scaling with zero database management overhead.
 *   **Choose Qdrant if:** You require advanced payloads filtering (like complex geolocations, timestamps, or metadata ranges) within your vector queries and prefer a high-performance Rust engine.
 
-*Affiliate Action: If you're hosting on Supabase or Pinecone, sign up for their developer partner links to receive hosting credits.*
+---
+
+### Partner & Affiliate Disclosures
+Ready to deploy your agent's memory? Support our site by signing up using our developer partner links:
+*   **Pinecone:** [Create a Pinecone Serverless Account](https://pinecone.io/?ref=neutraloverdrive) to start indexing up to 100k vectors for free.
+*   **Supabase:** [Launch a Supabase Postgres Instance](https://supabase.com/?ref=neutraloverdrive) with built-in pgvector support.
+*   **Qdrant:** [Spin up a Qdrant Cloud Cluster](https://qdrant.tech/?ref=neutraloverdrive) with 1GB of free storage.

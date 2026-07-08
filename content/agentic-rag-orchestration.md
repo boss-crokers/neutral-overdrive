@@ -34,34 +34,42 @@ This architecture can be visualised as an interactive node network dashboard:
 
 ### Orchestration in Python
 
-To orchestrate this workflow programmatically, the Antigravity SDK provides simple definitions. Below is the script initializing the Router and executing a delegated workflow:
+To orchestrate this workflow programmatically, the Google Antigravity SDK provides structured configurations to manage agent boundaries. Below is a production-ready script configuration initializing the coordinator agent and executing the delegated multi-agent workflow:
 
 ```python
-# Multi-agent setup with Antigravity SDK and Gemini
-from antigravity import Agent, Workspace, Router
+import asyncio
+from google.antigravity import Agent, LocalAgentConfig, types
 
-# Create isolated workspace
-workspace = Workspace(name="rag-env")
+async def run_orchestration():
+    # Configure the coordinator agent with subagent capabilities enabled
+    config = LocalAgentConfig(
+        model="gemini-3.5-flash",
+        system_instructions=(
+            "You are the main coordinator agent. Delegate code research tasks and "
+            "code generation tasks to specialized subagents to solve the user's request. "
+            "Ensure the final output is audited before returning."
+        ),
+        capabilities=types.CapabilitiesConfig(
+            enable_subagents=True,  # Enables spawning child subagents
+        )
+    )
 
-# Define specialized agents
-researcher = Agent(
-    name="CodebaseResearcher",
-    system_prompt="Analyze codebases and extract symbol definitions.",
-    tools=["ripgrep_search", "view_file"],
-    workspace=workspace
-)
+    # Instantiate the agent using the asynchronous context manager
+    async with Agent(config=config) as agent:
+        # Prompt the coordinator to delegate and execute the multi-step task
+        response = await agent.chat(
+            "Research the database connector file in our workspace, "
+            "then refactor the connections to use a connection pool, "
+            "and finally verify the new pooled connections are robust."
+        )
+        
+        # Await and print the final aggregated result from the agent loop
+        output = await response.text()
+        print("Workflow output:\n", output)
 
-coder = Agent(
-    name="SoftwareDeveloper",
-    system_prompt="Create and edit source files in the project.",
-    tools=["write_file", "replace_content"],
-    workspace=workspace
-)
-
-# Initialize router agent to orchestrate execution
-router = Router(agents=[researcher, coder])
-result = router.dispatch("Refactor database connections to use pooled connections.")
-print("Workflow output:", result)
+# Run the async main loop
+if __name__ == "__main__":
+    asyncio.run(run_orchestration())
 ```
 
-With this architecture, agent loops run autonomously, self-correcting syntax errors and checking files before declaring success.
+With this architecture, the main coordinator agent handles execution in a clean lifecycle context, dynamically launching subagents that run autonomously, edit files, and self-correct compile errors.

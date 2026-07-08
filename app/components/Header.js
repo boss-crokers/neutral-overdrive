@@ -43,15 +43,21 @@ const SEARCH_DATABASE = [
     category: "agentic-workflows",
     description: "Pinecone, Supabase, and Qdrant for AI memory.",
   },
+  {
+    title: "Automate Dividend-Growth Portfolio Reports for Client Reviews",
+    slug: "automate-dividend-growth-portfolio-reports",
+    category: "financial-automation",
+    description: "A zero-code architecture guide to building an ETF portfolio reporting pipeline using Make.com, financial APIs, and the Gemini API.",
+  },
 ];
 
 const navLinks = [
   { href: "/categories/agentic-workflows", label: "Guides" },
   { href: "/categories/video-generation", label: "Comparisons" },
-  { href: "/templates", label: "Templates" },
-  { href: "/tools/token-calculator", label: "Tools" },
+  { href: "/templates", label: "Prompts" },
+  { href: "/downloads", label: "Downloads" },
+  { href: "/tools", label: "Tools" },
   { href: "/resources", label: "Resources" },
-  { href: "/advertise", label: "Advertise" },
 ];
 
 function Wordmark() {

@@ -7,6 +7,7 @@ export const articleImages = {
   "best-vector-databases-gemini-agentic-loops": "/vector-databases.jpg",
   "ai-compliance-framework": "/agentic-flow.jpg",
   "automate-invoicing-make-sheets": "/agentic-flow.jpg",
+  "automate-dividend-growth-portfolio-reports": "/agentic-flow.jpg",
 };
 
 export const categoryMeta = {
@@ -28,10 +29,17 @@ export const categoryMeta = {
     description:
       "Reusable prompt structures for image generation, visual consistency, and creative direction.",
   },
+  "financial-automation": {
+    label: "Finance",
+    title: "Financial automation guides",
+    description:
+      "Operational shortcuts for wealth managers, brokers, and advisors using AI pipelines.",
+  },
 };
 
 export const topics = [
   { name: "Workflows", count: 42, href: "/categories/agentic-workflows" },
+  { name: "Finance Automation", count: 15, href: "/categories/financial-automation" },
   { name: "Comparisons", count: 28, href: "/categories/video-generation" },
   { name: "Prompts", count: 36, href: "/categories/image-generation" },
   { name: "Tools & APIs", count: 31, href: "/tools/token-calculator" },
@@ -44,6 +52,9 @@ export const topics = [
 
 export const popularResources = [
   { label: "Token calculator", href: "/tools/token-calculator" },
+  { label: "L2 Diagnostic Triage Engine", href: "/tools/triage-engine" },
+  { label: "Dividend calculator", href: "/tools/dividend-calculator" },
+  { label: "Inspection summarizer", href: "/tools/inspection-summarizer" },
   { label: "Model pricing comparison", href: "/resources" },
   { label: "Prompt templates library", href: "/templates" },
   { label: "RAG evaluation checklist", href: "/categories/agentic-workflows" },

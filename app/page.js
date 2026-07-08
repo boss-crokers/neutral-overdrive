@@ -14,7 +14,7 @@ import {
   Search,
   Wrench,
 } from "lucide-react";
-import { getAllArticles } from "./lib/markdown";
+import { getAllArticles, getTopicCounts } from "./lib/markdown";
 import { articleImages, categoryMeta, formatDate, popularResources, topics } from "./lib/siteData";
 import NewsletterSignup from "./components/NewsletterSignup";
 
@@ -72,6 +72,7 @@ function FeaturedGuide({ article }) {
 export default function Home() {
   const articles = getAllArticles();
   const featured = articles.slice(0, 4);
+  const topicCounts = getTopicCounts();
 
   return (
     <div className="overflow-hidden">
@@ -137,7 +138,7 @@ export default function Home() {
                   >
                     <Icon className="h-5 w-5" />
                     <span>{topic.name}</span>
-                    <span className="text-[13px] text-[var(--muted)]">{topic.count}</span>
+                    <span className="text-[13px] text-[var(--muted)]">{topicCounts[topic.name] ?? 0}</span>
                   </Link>
                 );
               })}

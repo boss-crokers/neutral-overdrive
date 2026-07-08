@@ -7,8 +7,9 @@ const columns = [
     links: [
       { label: "Guides", href: "/categories/agentic-workflows" },
       { label: "Comparisons", href: "/categories/video-generation" },
-      { label: "Templates", href: "/templates" },
-      { label: "Tools", href: "/tools/token-calculator" },
+      { label: "Prompts", href: "/templates" },
+      { label: "Downloads", href: "/downloads" },
+      { label: "Tools", href: "/tools" },
     ],
   },
   {
