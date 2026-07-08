@@ -101,7 +101,7 @@ log_id = logbook.log_interaction(
     developer_email="dev@company.com",
     system_prompt="You are a real-time data compression assistant. Use a modified LZW compression logic constrained to 8-bit memory cells.",
     user_prompt="Draft the byte packing routine for the optimized dictionary in Python.",
-    model_name="gemini-1.5-pro",
+    model_name="gemini-3.1-pro",
     model_output="def pack_bytes(dictionary):\n    # ... AI generated code ...",
     parameters={"temperature": 0.2, "seed": 482910},
     git_commit_hash="9cf82e1d7a8b8c2d9e0f31a2b3c4d5e6f7a8b9c0"
@@ -121,7 +121,7 @@ In addition to keeping JSON records, your development workflow should link code 
 2.  **Commit Hooks:** Configure local git hooks to prompt developers to tag commits that contain significant AI-generated segments (e.g., `git commit -m "Add LZW compression parser [AI-Assisted] [Refined: Human custom byte-alignment]"`).
 3.  **Code Annotations:** Use inline code comments to mark blocks of code that were AI-generated but human-refined:
     ```python
-    # [PATENT NOTE: Conception by Human / Synthesized by Gemini 1.5 Pro]
+    # [PATENT NOTE: Conception by Human / Synthesized by Gemini 3.1 Pro]
     # Human defined constraint: 8-bit limit. AI generated loop structure.
     # Refined by Human on 2026-07-07 to fix buffer overflow condition.
     ```

@@ -85,6 +85,6 @@ If an AI agent makes an incorrect decision (such as sending a duplicate invoice 
 
 Ensure your database logs the following parameters for every AI execution:
 *   **Exact Prompt Input:** The fully assembled prompt, including the system instructions and user variables.
-*   **Model Identifier:** The exact version used (e.g., `gemini-1.5-pro-002`), as model updates can change behaviors.
+*   **Model Identifier:** The exact version used (e.g., `gemini-3.1-pro-001`), as model updates can change behaviors.
 *   **Sampling Seed:** The `seed` and `temperature` configurations to allow deterministic reconstruction of outputs where possible.
 *   **Raw and Parsed Outputs:** Both the raw string returned and the parsed JSON schema.

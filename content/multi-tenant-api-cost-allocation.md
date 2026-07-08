@@ -57,7 +57,7 @@ CREATE TABLE tenants (
 
 -- 2. Model Pricing Rate Card (Costs per 1,000,000 tokens)
 CREATE TABLE model_rates (
-    id VARCHAR(100) PRIMARY KEY, -- e.g., 'gemini-1.5-pro'
+    id VARCHAR(100) PRIMARY KEY, -- e.g., 'gemini-3.1-pro'
     input_rate_per_million NUMERIC(10, 4) NOT NULL,
     output_rate_per_million NUMERIC(10, 4) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -66,8 +66,8 @@ CREATE TABLE model_rates (
 -- Populate with standard Gemini pricing
 INSERT INTO model_rates (id, input_rate_per_million, output_rate_per_million)
 VALUES 
-    ('gemini-1.5-flash', 0.075, 0.30),
-    ('gemini-1.5-pro', 1.25, 5.00);
+    ('gemini-3-flash', 0.50, 3.00),
+    ('gemini-3.1-pro', 2.00, 12.00);
 
 -- 3. API Consumption Log Table
 CREATE TABLE api_token_logs (
