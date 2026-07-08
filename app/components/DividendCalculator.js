@@ -217,6 +217,11 @@ export default function DividendCalculator() {
         </div>
 
       </div>
+      <div className="mt-8 border-t border-[var(--border)] pt-4 text-[11px] leading-relaxed text-[var(--muted)]">
+        <p>
+          * <strong>Disclaimer:</strong> This calculator is for educational and illustrative purposes only. Calculations are estimates and do not guarantee future returns, dividend yields, or performance. Neutral Overdrive does not provide financial, investment, or tax advice. Consult a certified financial advisor before making any investment decisions.
+        </p>
+      </div>
     </div>
   );
 }

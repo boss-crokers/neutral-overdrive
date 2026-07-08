@@ -303,6 +303,11 @@ User Impact: 42 clients received failed authentication tokens in a 4-minute wind
         </div>
       </div>
 
+      <div className="mt-8 border-t border-[var(--border)] pt-4 text-[11px] leading-relaxed text-[var(--muted)]">
+        <p>
+          * <strong>Disclaimer:</strong> This tool is an interactive simulation demonstrating LLM triage capabilities for educational purposes. It does not replace professional network administration, certified systems engineering, or authorized security diagnostics. Neutral Overdrive is not liable for system outages, data loss, or misconfigurations resulting from troubleshooting procedures.
+        </p>
+      </div>
     </div>
   );
 }

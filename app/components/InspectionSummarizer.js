@@ -1094,6 +1094,11 @@ export default function InspectionSummarizer() {
           </div>
         </div>
       )}
+      <div className="mt-8 border-t border-[var(--border)] pt-4 text-[11px] leading-relaxed text-[var(--muted)]">
+        <p>
+          * <strong>Disclaimer:</strong> This tool utilizes AI-based OCR and summarization to translate inspection text. It is for convenience and educational use only and does not replace a professional physical inspection, certified structural survey, or official engineering reviews. Neutral Overdrive is not liable for structural decisions, purchase choices, or contractor execution based on these summaries.
+        </p>
+      </div>
     </div>
   );
 }
