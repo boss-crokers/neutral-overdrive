@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Download } from "lucide-react";
+import DownloadButton from "./DownloadButton";
 
 export const metadata = {
   title: "AI Workflows and Script Downloads",
@@ -96,14 +97,21 @@ export default function DownloadsPage() {
                     {item.price}
                   </p>
                 </div>
-                <Link
-                  href={item.href}
-                  download={item.href.endsWith(".zip") ? "gemini-agent-loop.zip" : undefined}
-                  className={item.price === "Free" ? "button-primary" : "button-secondary"}
-                >
-                  {item.price === "Free" ? "Download" : "Request access"}
-                  {item.price === "Free" ? <Download className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
-                </Link>
+                {item.price === "Free" ? (
+                  <DownloadButton
+                    href={item.href}
+                    filename={item.href.split("/").pop()}
+                    className="button-primary"
+                  />
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="button-secondary"
+                  >
+                    Request access
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                )}
               </div>
             </article>
           ))}

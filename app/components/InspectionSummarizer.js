@@ -131,17 +131,17 @@ const MOCK_INSPECTION_DATA = {
 };
 
 const PIPELINE_STEPS = [
-  "Uploading PDF report to Make.com Webhook...",
-  "Running OCR extraction and document processing...",
-  "Running Gemini 3.5 Flash evaluation...",
+  "Reading uploaded PDF document bytes...",
+  "Converting document to Base64 data format...",
+  "Uploading document to Gemini 3.5 Flash...",
+  "Analyzing layout and running OCR extraction...",
   "Translating heavy technical jargon into plain English...",
-  "Sorting safety defects, maintenance, and cosmetics...",
-  "Structuring clean summary report..."
+  "Structuring safety, maintenance, and cosmetic reports..."
 ];
 
 export default function InspectionSummarizer() {
   const [file, setFile] = useState(null);
-  const [webhookUrl, setWebhookUrl] = useState("");
+  const [geminiApiKey, setGeminiApiKey] = useState("");
   const [isDragging, setIsDragging] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   
@@ -157,12 +157,12 @@ export default function InspectionSummarizer() {
   const [expandedItems, setExpandedItems] = useState({});
   const [copied, setCopied] = useState(false);
 
-  // Load webhook URL from localStorage
+  // Load Gemini API key from localStorage
   useEffect(() => {
-    const savedUrl = localStorage.getItem("make_webhook_url");
-    if (savedUrl) {
+    const savedKey = localStorage.getItem("gemini_api_key");
+    if (savedKey) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setWebhookUrl(savedUrl);
+      setGeminiApiKey(savedKey);
     }
   }, []);
 
@@ -212,10 +212,23 @@ export default function InspectionSummarizer() {
     }
   };
 
-  // Save Webhook URL to LocalStorage
-  const handleWebhookChange = (val) => {
-    setWebhookUrl(val);
-    localStorage.setItem("make_webhook_url", val);
+  // Read file as Base64 helper
+  const readAsBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(",")[1];
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Save Gemini API key to LocalStorage
+  const handleApiKeyChange = (val) => {
+    setGeminiApiKey(val);
+    localStorage.setItem("gemini_api_key", val);
   };
 
   // Run the Simulation (Mock Report)
@@ -246,14 +259,14 @@ export default function InspectionSummarizer() {
     return () => timers.forEach(clearTimeout);
   };
 
-  // Run Real Webhook Upload
+  // Run Real Gemini API Processing
   const uploadAndProcess = async () => {
     if (!file) {
       setError("Please select a PDF file first.");
       return;
     }
-    if (!webhookUrl) {
-      setError("Please enter a valid Make.com Webhook URL, or use the Simulator.");
+    if (!geminiApiKey) {
+      setError("Please enter a valid Gemini API Key, or use the Simulator.");
       return;
     }
 
@@ -273,36 +286,64 @@ export default function InspectionSummarizer() {
     }, 2500);
 
     try {
-      const formData = new FormData();
-      formData.append("file", file);
+      // Step 1: Read PDF file as Base64 in-browser
+      const base64Data = await readAsBase64(file);
 
-      // We send request to Make.com Webhook
-      const response = await fetch(webhookUrl, {
+      // Step 2: Post to Gemini API
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: "You are a residential home inspection report parser. Your job is to extract findings from the uploaded PDF home inspection report and translate them into a structured JSON payload that is easy for a buyer to understand.\n\nStrictly output the response as JSON matching this schema:\n{\n  \"executive_summary\": \"A simple, plain-English summary of the property condition, key high-priority safety concerns and overall budget impact.\",\n  \"deal_risk_level\": \"Low / Moderate (Manageable) / High Risk\",\n  \"deal_risk_color\": \"success\" for low risk, \"warning\" for moderate risk, or \"danger\" for high risk,\n  \"safety_defects\": [\n    {\n      \"title\": \"Brief descriptive title of the safety issue (e.g. Double-Tapped Breaker in Panel)\",\n      \"technical_jargon\": \"The exact or paraphrased scary technical sentence from the inspection report PDF\",\n      \"plain_english\": \"Explain in simple, comforting terms what the issue is, why it is a hazard, and how it is typically resolved by a professional.\",\n      \"cost_estimate\": \"A realistic range estimate of repair cost (e.g. $150 - $250)\",\n      \"location\": \"Location in the house (e.g. Main garage electrical panel)\",\n      \"severity\": \"High or Medium\"\n    }\n  ],\n  \"routine_maintenance\": [\n    {\n      \"title\": \"Brief descriptive title of the maintenance issue (e.g. HVAC Service Recommended)\",\n      \"technical_jargon\": \"The technical finding from the PDF\",\n      \"plain_english\": \"Simple explanation of what needs to be maintained, why it's important, and what happens if it is neglected.\",\n      \"cost_estimate\": \"Realistic range or DIY cost (e.g. $15 - $30 DIY)\",\n      \"location\": \"Location of the issue\",\n      \"timeline\": \"When this should be handled (e.g. Immediately, Before winter, within 6 months)\"\n    }\n  ],\n  \"cosmetic_issues\": [\n    {\n      \"title\": \"Brief descriptive title of the cosmetic issue (e.g. Hairline drywall cracks)\",\n      \"technical_jargon\": \"The technical finding from the PDF\",\n      \"plain_english\": \"Simple description and assurance that it's cosmetic and can be tackled whenever convenience allows.\",\n      \"cost_estimate\": \"Estimated cost (e.g. $50 DIY)\",\n      \"location\": \"Location of the issue\"\n    }\n  ]\n}\n\nEnsure that you extract all safety and maintenance issues from the PDF. Translate every finding into plain English. Budget and cost estimates should be realistic for standard contractor or DIY repairs in the US."
+                },
+                {
+                  inlineData: {
+                    mimeType: "application/pdf",
+                    data: base64Data
+                  }
+                }
+              ]
+            }
+          ],
+          generationConfig: {
+            responseMimeType: "application/json"
+          }
+        })
       });
 
       if (!response.ok) {
-        throw new Error(`Server responded with error status ${response.status}: ${response.statusText}`);
+        const errorJson = await response.json().catch(() => ({}));
+        throw new Error(errorJson.error?.message || `Gemini API responded with status ${response.status}: ${response.statusText}`);
       }
 
-      const responseText = await response.text();
-      let responseJson;
+      const resJson = await response.json();
+      const textResponse = resJson.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!textResponse) {
+        throw new Error("No response content returned from Gemini API.");
+      }
 
+      let responseJson;
       try {
         // Attempt to clean JSON in case of markdown formatting markers like ```json ... ```
-        let cleanText = responseText.trim();
+        let cleanText = textResponse.trim();
         if (cleanText.startsWith("```")) {
           cleanText = cleanText.replace(/^```json\s*/i, "").replace(/```$/, "");
         }
         responseJson = JSON.parse(cleanText);
       } catch (jsonErr) {
-        throw new Error("Webhook completed successfully but returned an invalid format. Please ensure your Make.com scenario returns JSON.");
+        throw new Error("Gemini API completed successfully but returned an invalid JSON format.");
       }
 
       // Validate the JSON structure
       if (!responseJson.safety_defects || !responseJson.routine_maintenance || !responseJson.cosmetic_issues) {
-        throw new Error("Missing arrays (safety_defects, routine_maintenance, cosmetic_issues) in webhook response. Double check Make.com configuration.");
+        throw new Error("Missing required arrays (safety_defects, routine_maintenance, cosmetic_issues) in Gemini response.");
       }
 
       // Fill in metadata/metrics if they are missing
@@ -328,7 +369,7 @@ export default function InspectionSummarizer() {
       }, 1000);
 
     } catch (err) {
-      setError(err.message || "An unexpected error occurred while communicating with Make.com.");
+      setError(err.message || "An unexpected error occurred while communicating with the Gemini API.");
       setIsProcessing(false);
     } finally {
       clearInterval(progressInterval);
@@ -448,7 +489,7 @@ export default function InspectionSummarizer() {
   return (
     <div className="w-full max-w-5xl mx-auto font-sans">
       
-      {/* Settings / Webhook Panel */}
+      {/* Settings / API Key Panel */}
       <div className="mb-6 bg-[var(--surface-subtle)] border border-[var(--border)] rounded-2xl p-5 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -456,8 +497,8 @@ export default function InspectionSummarizer() {
               <Settings className="h-5 w-5" />
             </div>
             <div>
-              <h3 className="font-semibold text-[var(--foreground)] text-[15px]">Make.com Pipeline Settings</h3>
-              <p className="text-xs text-[var(--muted)]">Configure the webhook to route your own PDFs to Gemini 3.5</p>
+              <h3 className="font-semibold text-[var(--foreground)] text-[15px]">Gemini API Connection Settings</h3>
+              <p className="text-xs text-[var(--muted)]">Configure your Gemini API Key to analyze PDFs directly in your browser</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -471,16 +512,16 @@ export default function InspectionSummarizer() {
           </div>
         </div>
 
-        {/* Webhook Input Field */}
+        {/* API Key Input Field */}
         <div className="mt-4">
           <label className="block text-xs font-semibold text-[var(--muted-strong)] mb-1.5 uppercase tracking-wider">
-            Make.com Webhook URL
+            Gemini API Key
           </label>
           <input
-            type="url"
-            value={webhookUrl}
-            onChange={(e) => handleWebhookChange(e.target.value)}
-            placeholder="https://hook.us1.make.com/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            type="password"
+            value={geminiApiKey}
+            onChange={(e) => handleApiKeyChange(e.target.value)}
+            placeholder="AIzaSy..."
             className="w-full px-3 py-2 bg-[var(--surface)] border border-[var(--border)] rounded-lg outline-none text-sm text-[var(--foreground)] placeholder-neutral-400 focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent transition-all"
           />
         </div>
@@ -488,22 +529,19 @@ export default function InspectionSummarizer() {
         {/* Instructions Collapsible */}
         {showInstructions && (
           <div className="mt-5 border-t border-[var(--border)] pt-4 text-sm text-[var(--muted-strong)] space-y-3">
-            <p className="font-semibold text-[var(--foreground)]">How to connect Make.com in 5 minutes:</p>
+            <p className="font-semibold text-[var(--foreground)]">How to get your Gemini API Key in 2 minutes:</p>
             <ol className="list-decimal pl-5 space-y-2 text-xs leading-relaxed text-[var(--muted)]">
               <li>
-                Create a new Scenario on <a href="https://make.com" target="_blank" rel="noreferrer" className="text-[var(--accent)] hover:underline">Make.com</a>.
+                Go to <a href="https://aistudio.google.com" target="_blank" rel="noreferrer" className="text-[var(--accent)] hover:underline">Google AI Studio</a>.
               </li>
               <li>
-                Add a <strong>Webhooks &rarr; Custom Webhook</strong> trigger module. Generate a webhook and copy the URL into the input field above.
+                Sign in with your Google account and click on the **"Get API Key"** button.
               </li>
               <li>
-                Add a <strong>Google Drive &rarr; Upload a File</strong> module. In the setting, select the file uploaded via webhook and toggle <strong>OCR Enabled</strong> on to extract the text.
+                Create a new API Key, copy it, and paste it in the **Gemini API Key** field above.
               </li>
               <li>
-                Add a <strong>Google Gemini &rarr; Generate Content</strong> (using Gemini 3.5 Flash) module. Set the system prompt to parse the text/images and output strictly as a JSON layout matching the properties <code>safety_defects</code>, <code>routine_maintenance</code>, and <code>cosmetic_issues</code>.
-              </li>
-              <li>
-                Add a <strong>Webhooks &rarr; Webhook Response</strong> module to send the generated JSON string back as the response body.
+                Your key will be securely saved locally in your browser's storage and used to directly analyze home inspection reports.
               </li>
             </ol>
           </div>
@@ -533,7 +571,7 @@ export default function InspectionSummarizer() {
           <p className="mt-2 text-sm text-[var(--muted)] max-w-sm leading-relaxed">
             {file
               ? `${(file.size / 1024 / 1024).toFixed(2)} MB • PDF Document`
-              : "Drag & drop your 40+ page technical PDF report here, or click to browse files from your computer."}
+              : "Drag & drop your technical PDF report here, or click to browse files from your computer."}
           </p>
 
           {/* Error Message */}
@@ -558,13 +596,13 @@ export default function InspectionSummarizer() {
               <>
                 <button
                   onClick={uploadAndProcess}
-                  disabled={!webhookUrl}
+                  disabled={!geminiApiKey}
                   className={`button-primary inline-flex items-center gap-2 ${
-                    !webhookUrl ? "opacity-40 cursor-not-allowed border-neutral-300 bg-neutral-300" : ""
+                    !geminiApiKey ? "opacity-40 cursor-not-allowed border-neutral-300 bg-neutral-300" : ""
                   }`}
                 >
                   <Sparkles className="h-4 w-4" />
-                  Analyze with Make.com
+                  Analyze with Gemini
                 </button>
                 <button
                   onClick={() => setFile(null)}
