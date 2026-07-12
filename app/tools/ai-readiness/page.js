@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import DividendCalculator from "../../components/DividendCalculator";
+import AiReadinessChecker from "../../components/AiReadinessChecker";
 
 export const metadata = {
-  title: "Dividend Snowball Simulator | Neutral Overdrive",
-  description: "Calculate and visualize long-term portfolio growth, DRIP compounding effects, and annual passive dividend income.",
+  title: "AI Strategy Compass | Neutral Overdrive",
+  description: "Audit your business or project across data pipelines, compliance frameworks, safety guardrails, and teams to build a secure generative AI roadmap.",
   alternates: {
-    canonical: "/tools/dividend-calculator/",
+    canonical: "/tools/ai-readiness/",
   },
 };
 
-export default function DividendCalculatorPage() {
+export default function AiReadinessPage() {
   return (
     <div>
       <section className="site-container border-b border-[var(--border)] py-8 md:py-10">
@@ -19,15 +19,15 @@ export default function DividendCalculatorPage() {
           Back to tools
         </Link>
         <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
-          Dividend Snowball Simulator
+          AI Strategy Compass
         </h1>
         <p className="body-copy mt-5 max-w-[680px] text-[17px]">
-          Model investment compounding growth, project annual passive dividend cashflow, and visualize the impact of reinvesting distributions over time.
+          Audit your organization across data pipelines, safety filters, compliance frameworks, and teams to build a secure AI roadmap.
         </p>
       </section>
 
       <section className="site-container page-section">
-        <DividendCalculator />
+        <AiReadinessChecker />
       </section>
     </div>
   );

@@ -35,7 +35,9 @@ export default function L2TriageEngine() {
   useEffect(() => {
     let interval;
     if (isAnalyzing) {
-      setCurrentStep(0);
+      const timer = setTimeout(() => {
+        setCurrentStep(0);
+      }, 0);
       interval = setInterval(() => {
         setCurrentStep((prev) => {
           if (prev < PIPELINE_STEPS.length - 1) {
@@ -44,8 +46,11 @@ export default function L2TriageEngine() {
           return prev;
         });
       }, 400);
+      return () => {
+        clearTimeout(timer);
+        clearInterval(interval);
+      };
     }
-    return () => clearInterval(interval);
   }, [isAnalyzing]);
 
   const handleSampleLog = () => {
@@ -273,7 +278,7 @@ User Impact: 42 clients received failed authentication tokens in a 4-minute wind
               href="/advertise"
               className="text-link inline-flex items-center gap-2 text-[14px] font-semibold"
             >
-              Let's talk architecture <ArrowRight className="h-4 w-4" />
+              Let&apos;s talk architecture <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

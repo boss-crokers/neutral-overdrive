@@ -4,6 +4,9 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 export const metadata = {
   title: "Recommended AI Resources",
   description: "A practical directory of AI APIs, hosting, databases, and workflow tools.",
+  alternates: {
+    canonical: "/resources/",
+  },
 };
 
 const resourceCategories = [
@@ -27,6 +30,7 @@ const resourceCategories = [
   {
     title: "Workflow references",
     items: [
+      ["AI Governance & Security Certification Roadmap", "Visual track and checklist for CAIS, AAISM, AAIR, AIGP, and CCISO credentials.", "/resources/certification-roadmap"],
       ["Prompt templates", "Reusable prompt structures and examples.", "/templates"],
       ["Token calculator", "Estimate API cost before scaling a workflow.", "/tools/token-calculator"],
     ],

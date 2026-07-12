@@ -16,14 +16,38 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
+  const { category, slug } = await params;
   const article = getArticleBySlug(slug);
 
   if (!article) return {};
 
+  const image = articleImages[slug] || "/neutral-overdrive-workspace.png";
+  const url = `https://neutraloverdrive.com/categories/${category}/${slug}/`;
+
   return {
     title: `${article.metadata.title} | Neutral Overdrive`,
     description: article.metadata.description,
+    alternates: {
+      canonical: `/categories/${category}/${slug}/`,
+    },
+    openGraph: {
+      title: `${article.metadata.title} | Neutral Overdrive`,
+      description: article.metadata.description,
+      type: "article",
+      url: url,
+      images: [
+        {
+          url: image,
+          alt: article.metadata.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${article.metadata.title} | Neutral Overdrive`,
+      description: article.metadata.description,
+      images: [image],
+    },
   };
 }
 

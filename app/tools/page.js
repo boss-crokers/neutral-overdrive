@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ListChecks, TrendingUp, FileText, Terminal } from "lucide-react";
+import { ArrowLeft, ArrowRight, ListChecks, TrendingUp, FileText, Terminal, Layers, ShieldCheck, Scissors, Calculator } from "lucide-react";
 
 export const metadata = {
   title: "Interactive AI and Finance Tools",
   description: "Free web-based calculators and estimation tools for developers, wealth managers, and automation builders.",
+  alternates: {
+    canonical: "/tools/",
+  },
 };
 
 const toolsList = [
@@ -22,11 +25,39 @@ const toolsList = [
     badge: "Developer Utility",
   },
   {
+    title: "RAG Chunking Visualizer",
+    description: "Visualize document chunking strategies, inspect text splits, and estimate embedding costs across Google Gemini, OpenAI, and Cohere.",
+    href: "/tools/rag-visualizer",
+    icon: Scissors,
+    badge: "Developer Utility",
+  },
+  {
     title: "Dividend Snowball Simulator",
     description: "Visualize compounding growth curve metrics, model annual passive dividend income, and calculate DRIP compounding effects on ETFs.",
     href: "/tools/dividend-calculator",
     icon: TrendingUp,
     badge: "Finance Utility",
+  },
+  {
+    title: "Cost & Profitability Modeler",
+    description: "Model multi-dimensional cost structures, allocate overhead, and simulate pricing or operational strategies to protect margins under high inflation.",
+    href: "/tools/cost-profitability",
+    icon: Layers,
+    badge: "Finance Utility",
+  },
+  {
+    title: "AI Agent ROI Calculator",
+    description: "Model manual process labor against agent automation costs. Simulate API token spend, human verification audits, and payback periods.",
+    href: "/tools/agent-roi",
+    icon: Calculator,
+    badge: "Finance Utility",
+  },
+  {
+    title: "AI Strategy Compass",
+    description: "Audit your business or project across data pipelines, models, compliance guardrails, and teams to steer a secure generative AI strategy.",
+    href: "/tools/ai-readiness",
+    icon: ShieldCheck,
+    badge: "Governance Utility",
   },
   {
     title: "Technical Inspection Summarizer",

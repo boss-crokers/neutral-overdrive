@@ -290,7 +290,7 @@ export default function InspectionSummarizer() {
       const base64Data = await readAsBase64(file);
 
       // Step 2: Post to Gemini API
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`, {
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${geminiApiKey}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -535,13 +535,13 @@ export default function InspectionSummarizer() {
                 Go to <a href="https://aistudio.google.com" target="_blank" rel="noreferrer" className="text-[var(--accent)] hover:underline">Google AI Studio</a>.
               </li>
               <li>
-                Sign in with your Google account and click on the **"Get API Key"** button.
+                Sign in with your Google account and click on the **&quot;Get API Key&quot;** button.
               </li>
               <li>
                 Create a new API Key, copy it, and paste it in the **Gemini API Key** field above.
               </li>
               <li>
-                Your key will be securely saved locally in your browser's storage and used to directly analyze home inspection reports.
+                Your key will be securely saved locally in your browser&apos;s storage and used to directly analyze home inspection reports.
               </li>
             </ol>
           </div>

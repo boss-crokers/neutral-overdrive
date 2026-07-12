@@ -5,6 +5,9 @@ import InspectionSummarizer from "../../components/InspectionSummarizer";
 export const metadata = {
   title: "Technical Inspection Summarizer | Neutral Overdrive",
   description: "Translate scary, forty-page technical residential home inspection report PDFs into simple, plain English summaries.",
+  alternates: {
+    canonical: "/tools/inspection-summarizer/",
+  },
 };
 
 export default function InspectionSummarizerPage() {

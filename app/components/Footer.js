@@ -5,9 +5,9 @@ const columns = [
   {
     title: "Content",
     links: [
-      { label: "Guides", href: "/categories/agentic-workflows" },
+      { label: "Guides", href: "/categories" },
       { label: "Comparisons", href: "/categories/video-generation" },
-      { label: "Prompts", href: "/templates" },
+      { label: "Templates", href: "/templates" },
       { label: "Downloads", href: "/downloads" },
       { label: "Tools", href: "/tools" },
     ],

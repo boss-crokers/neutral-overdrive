@@ -18,6 +18,12 @@ import { getAllArticles, getTopicCounts } from "./lib/markdown";
 import { articleImages, categoryMeta, formatDate, popularResources, topics } from "./lib/siteData";
 import NewsletterSignup from "./components/NewsletterSignup";
 
+export const metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
+
 const topicIcons = {
   Workflows: GitBranch,
   Comparisons: BarChart3,

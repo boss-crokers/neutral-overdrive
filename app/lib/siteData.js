@@ -38,19 +38,20 @@ export const categoryMeta = {
 };
 
 export const topics = [
-  { name: "Workflows", count: 42, href: "/categories/agentic-workflows" },
-  { name: "Finance Automation", count: 15, href: "/categories/financial-automation" },
-  { name: "Comparisons", count: 28, href: "/categories/video-generation" },
-  { name: "Prompts", count: 36, href: "/categories/image-generation" },
-  { name: "Tools & APIs", count: 31, href: "/tools/token-calculator" },
-  { name: "Optimization", count: 26, href: "/categories/agentic-workflows" },
-  { name: "RAG & Data", count: 24, href: "/categories/agentic-workflows" },
-  { name: "Agents", count: 19, href: "/categories/agentic-workflows" },
-  { name: "Content & Marketing", count: 22, href: "/categories/image-generation" },
-  { name: "Code & DevOps", count: 21, href: "/categories/agentic-workflows" },
+  { name: "Workflows", href: "/categories/agentic-workflows" },
+  { name: "Finance Automation", href: "/categories/financial-automation" },
+  { name: "Comparisons", href: "/categories/video-generation" },
+  { name: "Prompts", href: "/categories/image-generation" },
+  { name: "Tools & APIs", href: "/tools" },
+  { name: "Optimization", href: "/categories/agentic-workflows" },
+  { name: "RAG & Data", href: "/categories/agentic-workflows" },
+  { name: "Agents", href: "/categories/agentic-workflows" },
+  { name: "Content & Marketing", href: "/categories/image-generation" },
+  { name: "Code & DevOps", href: "/categories/agentic-workflows" },
 ];
 
 export const popularResources = [
+  { label: "AI Governance & Security Certification Roadmap", href: "/resources/certification-roadmap" },
   { label: "Token calculator", href: "/tools/token-calculator" },
   { label: "L2 Diagnostic Triage Engine", href: "/tools/triage-engine" },
   { label: "Dividend calculator", href: "/tools/dividend-calculator" },

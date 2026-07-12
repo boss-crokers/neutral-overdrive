@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, Search, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
-const SEARCH_DATABASE = [
+const FALLBACK_SEARCH_DATABASE = [
   {
     title: "Midjourney v6 Mastery: Advanced Photorealism & Aspect Ratios",
     slug: "midjourney-mastery",
@@ -52,9 +52,9 @@ const SEARCH_DATABASE = [
 ];
 
 const navLinks = [
-  { href: "/categories/agentic-workflows", label: "Guides" },
+  { href: "/categories", label: "Guides" },
   { href: "/categories/video-generation", label: "Comparisons" },
-  { href: "/templates", label: "Prompts" },
+  { href: "/templates", label: "Templates" },
   { href: "/downloads", label: "Downloads" },
   { href: "/tools", label: "Tools" },
   { href: "/resources", label: "Resources" },
@@ -80,6 +80,21 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [searchDb, setSearchDb] = useState(FALLBACK_SEARCH_DATABASE);
+
+  useEffect(() => {
+    fetch("/api/search/")
+      .then((res) => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setSearchDb(data);
+        }
+      })
+      .catch((err) => console.error("Failed to load search database", err));
+  }, []);
 
   useEffect(() => {
     function closeOnOutside(event) {
@@ -93,7 +108,7 @@ export default function Header() {
   }, []);
 
   const results = query.trim()
-    ? SEARCH_DATABASE.filter((item) => {
+    ? searchDb.filter((item) => {
         const needle = query.toLowerCase();
         return (
           item.title.toLowerCase().includes(needle) ||
@@ -101,7 +116,7 @@ export default function Header() {
           item.category.toLowerCase().includes(needle)
         );
       })
-    : SEARCH_DATABASE.slice(0, 4);
+    : searchDb.slice(0, 4);
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur">

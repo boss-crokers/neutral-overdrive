@@ -4,6 +4,9 @@ import { ArrowLeft } from "lucide-react";
 export const metadata = {
   title: "About Neutral Overdrive",
   description: "Neutral Overdrive publishes practical AI workflow guides, comparisons, templates, and tools.",
+  alternates: {
+    canonical: "/about/",
+  },
 };
 
 const principles = [

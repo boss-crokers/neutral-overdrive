@@ -9,13 +9,13 @@ prompts:
   main:
     imageUrl: "/kling-cinematic.jpg"
     promptText: "A wide cinematic camera panning shot of a sleek futuristic transit train gliding silently above a neon-lit cyberpunk city at night, reflecting off wet roads. Neon blue and purple lighting, misty atmospheric haze. Cinematic film still."
-    model: "Kling AI v1.5"
+    model: "Kling 3.0"
     aspectRatio: "16:9"
     stylize: "High"
     seed: "193028472"
 ---
 
-Kling AI has emerged as a powerhouse for generating high-fidelity video sequences with complex physics and motion. Unlike static images, prompting for video requires conveying temporal states—how things move, change direction, or interact with the camera over time.
+Kling 3.0 has emerged as a powerhouse for generating high-fidelity video sequences with complex physics and motion. Unlike static images, prompting for video requires conveying temporal states—how things move, change direction, or interact with the camera over time.
 
 To achieve cinematic camera movement, prompt engineers use motion direction vectors. For example, instead of asking for a "moving train", you must describe the camera path relative to the subject (e.g. "slow pan from left to right tracking the train").
 
@@ -23,7 +23,7 @@ To achieve cinematic camera movement, prompt engineers use motion direction vect
 
 ### Directing the Camera
 
-In Kling AI, the camera acts as a virtual director. You can prompt specific camera terms to dictate the viewport transformation:
+In Kling 3.0, the camera acts as a virtual director. You can prompt specific camera terms to dictate the viewport transformation:
 - **Pan Left/Right**: Rotates the camera horizontally.
 - **Dolly Zoom**: Creates a dramatic perspective shift.
 - **Crane Shot**: Moves the camera vertically, providing an aerial view of complex environments.

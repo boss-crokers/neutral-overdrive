@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import DividendCalculator from "../../components/DividendCalculator";
+import AgentRoiCalculator from "../../components/AgentRoiCalculator";
 
 export const metadata = {
-  title: "Dividend Snowball Simulator | Neutral Overdrive",
-  description: "Calculate and visualize long-term portfolio growth, DRIP compounding effects, and annual passive dividend income.",
+  title: "AI Agent ROI & Automation Calculator | Neutral Overdrive",
+  description: "Calculate the return on investment of automating workflows with AI agents. Estimate token costs, manual fallback costs, payback period, and 3-year ROI.",
   alternates: {
-    canonical: "/tools/dividend-calculator/",
+    canonical: "/tools/agent-roi/",
   },
 };
 
-export default function DividendCalculatorPage() {
+export default function AgentRoiCalculatorPage() {
   return (
     <div>
       <section className="site-container border-b border-[var(--border)] py-8 md:py-10">
@@ -19,15 +19,15 @@ export default function DividendCalculatorPage() {
           Back to tools
         </Link>
         <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
-          Dividend Snowball Simulator
+          AI Agent ROI Calculator
         </h1>
         <p className="body-copy mt-5 max-w-[680px] text-[17px]">
-          Model investment compounding growth, project annual passive dividend cashflow, and visualize the impact of reinvesting distributions over time.
+          Model manual process labor against agent automation costs. Simulate API token spend, human verification audits, manual fallbacks, and project cumulative payback periods.
         </p>
       </section>
 
       <section className="site-container page-section">
-        <DividendCalculator />
+        <AgentRoiCalculator />
       </section>
     </div>
   );

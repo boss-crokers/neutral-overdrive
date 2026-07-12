@@ -39,6 +39,33 @@ export const metadata = {
   ],
   authors: [{ name: "Neutral Overdrive" }],
   metadataBase: new URL("https://neutraloverdrive.com"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Neutral Overdrive - Practical AI Workflow Guides",
+    description:
+      "Practical AI workflow guides, model comparisons, prompt templates, and tools for people shipping real work.",
+    url: "https://neutraloverdrive.com",
+    siteName: "Neutral Overdrive",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/neutral-overdrive-workspace.png",
+        width: 1200,
+        height: 630,
+        alt: "Neutral Overdrive Workspace",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Neutral Overdrive - Practical AI Workflow Guides",
+    description:
+      "Practical AI workflow guides, model comparisons, prompt templates, and tools for people shipping real work.",
+    images: ["/neutral-overdrive-workspace.png"],
+  },
 };
 
 const themeInit = `

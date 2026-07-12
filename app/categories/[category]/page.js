@@ -15,9 +15,23 @@ export async function generateMetadata({ params }) {
 
   if (!meta) return {};
 
+  const url = `https://neutraloverdrive.com/categories/${category}/`;
+
   return {
     title: `${meta.title} | Neutral Overdrive`,
     description: meta.description,
+    alternates: {
+      canonical: `/categories/${category}/`,
+    },
+    openGraph: {
+      title: `${meta.title} | Neutral Overdrive`,
+      description: meta.description,
+      url: url,
+    },
+    twitter: {
+      title: `${meta.title} | Neutral Overdrive`,
+      description: meta.description,
+    },
   };
 }
 

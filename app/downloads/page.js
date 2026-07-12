@@ -5,6 +5,9 @@ import DownloadButton from "./DownloadButton";
 export const metadata = {
   title: "AI Workflows and Script Downloads",
   description: "Download reusable code vaults, parameter formulas, and compliance worksheets for agentic system integrations.",
+  alternates: {
+    canonical: "/downloads/",
+  },
 };
 
 const downloads = [

@@ -5,6 +5,9 @@ import L2TriageEngine from "../../components/L2TriageEngine";
 export const metadata = {
   title: "L2 Diagnostic Triage Engine | Neutral Overdrive",
   description: "Paste raw server stack traces, application logs, or messy user bug reports. The engine will instantly isolate the root failure and draft an escalation ticket.",
+  alternates: {
+    canonical: "/tools/triage-engine/",
+  },
 };
 
 export default function L2TriageEnginePage() {

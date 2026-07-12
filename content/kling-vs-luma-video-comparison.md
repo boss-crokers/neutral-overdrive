@@ -9,7 +9,7 @@ prompts:
   klingPrompt:
     imageUrl: "/kling-vs-luma.jpg"
     promptText: "Side-by-side comparison displays. Left display: a cinematic warm sunset over rocky ocean cliffs. Right display: a cold holographic cityscape under violet neon skies. 8k resolution, photorealistic rendering."
-    model: "Kling v1.5 / Luma v2"
+    model: "Kling 3.0 / Luma Ray3.2"
     aspectRatio: "16:9"
     stylize: "Cinematic"
     seed: "882736452"
@@ -25,20 +25,20 @@ In this guide, we break down their performance, motion physics, pricing, and cha
 
 Let's look at the core technical capabilities of each model:
 
-| Feature | Kling AI | Luma Dream Machine |
+| Feature | Kling 3.0 (Turbo/Omni) | Luma Dream Machine (Ray3.2) |
 | :--- | :--- | :--- |
-| **Max Clip Duration** | 5s (extendable to 10s) | 5s (extendable to 9s) |
-| **Max Resolution** | 1080p | 1080p |
+| **Max Clip Duration** | 5s (extendable to 15s) | 5s (extendable to 9s) |
+| **Max Resolution** | 1080p (4K support on Omni) | 1080p |
 | **Motion Realism** | High (Excellent physics) | Very High (Camera dynamics) |
-| **Text-to-Video Speed** | ~2-3 mins | ~1-2 mins |
+| **Text-to-Video Speed** | ~1-2 mins (Turbo Mode) | ~1-2 mins |
 | **Base Price** | $10/month | $9.99/month |
 | **Free Tier** | Yes (Daily free credits) | Yes (30 free generations/mo) |
 
 ### Motion Consistency & Physics
 
-Where **Luma Dream Machine** stands out is in its camera dynamics. Luma excels at rendering smooth, sweeping camera movements (like dollying, panning, or tracking shots) without causing the background to warp or melt.
+Where **Luma Dream Machine (Ray3.2)** stands out is in its camera dynamics. Luma excels at rendering smooth, sweeping camera movements (like dollying, panning, or tracking shots) without causing the background to warp or melt, and its new Skills system gives directors higher fine-grained control.
 
-However, **Kling AI** dominates when it comes to human anatomy physics and complex character movements. When prompting characters to perform complex human actions like eating, writing, or gesturing, Kling preserves fingers, limbs, and facial structures much more accurately than Luma, which can sometimes result in surreal mutations.
+However, **Kling 3.0** dominates when it comes to human anatomy physics and complex character movements. With the release of Kling 3.0 Turbo and Omni, the model preserves fingers, limbs, and facial structures much more accurately than Luma, which can sometimes result in surreal mutations.
 
 [[PromptCard: klingPrompt]]
 

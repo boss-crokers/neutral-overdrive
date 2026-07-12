@@ -244,6 +244,14 @@ hr {
   line-height: 1.78;
 }
 
+.prose-neutral :where(strong) {
+  color: var(--foreground);
+}
+
+.prose-neutral :where(li)::marker {
+  color: var(--muted);
+}
+
 .prose-neutral :where(h1, h2, h3, h4) {
   color: var(--foreground);
   font-family: var(--font-display), Georgia, serif;
@@ -262,6 +270,16 @@ hr {
   border-left: 1px solid var(--border-strong);
   color: var(--muted-strong);
   font-style: normal;
+}
+
+.prose-neutral :where(th) {
+  color: var(--foreground);
+  border-bottom: 2px solid var(--border-strong);
+}
+
+.prose-neutral :where(td) {
+  color: var(--muted-strong);
+  border-bottom: 1px solid var(--border);
 }
 
 @media (max-width: 720px) {

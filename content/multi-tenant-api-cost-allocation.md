@@ -67,7 +67,8 @@ CREATE TABLE model_rates (
 INSERT INTO model_rates (id, input_rate_per_million, output_rate_per_million)
 VALUES 
     ('gemini-3-flash', 0.50, 3.00),
-    ('gemini-3.1-pro', 2.00, 12.00);
+    ('gemini-3.1-pro', 2.00, 12.00),
+    ('gemini-3.5-flash', 1.50, 9.00);
 
 -- 3. API Consumption Log Table
 CREATE TABLE api_token_logs (

@@ -4,6 +4,9 @@ import { ArrowLeft } from "lucide-react";
 export const metadata = {
   title: "Terms of Service",
   description: "Terms governing Neutral Overdrive guides, templates, code snippets, and downloads.",
+  alternates: {
+    canonical: "/terms/",
+  },
 };
 
 export default function TermsPage() {

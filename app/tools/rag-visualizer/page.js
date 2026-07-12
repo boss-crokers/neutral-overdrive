@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import DividendCalculator from "../../components/DividendCalculator";
+import RagVisualizer from "../../components/RagVisualizer";
 
 export const metadata = {
-  title: "Dividend Snowball Simulator | Neutral Overdrive",
-  description: "Calculate and visualize long-term portfolio growth, DRIP compounding effects, and annual passive dividend income.",
+  title: "RAG Chunking Visualizer & Cost Estimator | Neutral Overdrive",
+  description: "Visualize document chunking strategies, inspect text splits, and estimate embedding costs across Google Gemini, OpenAI, and Cohere.",
   alternates: {
-    canonical: "/tools/dividend-calculator/",
+    canonical: "/tools/rag-visualizer/",
   },
 };
 
-export default function DividendCalculatorPage() {
+export default function RagVisualizerPage() {
   return (
     <div>
       <section className="site-container border-b border-[var(--border)] py-8 md:py-10">
@@ -19,15 +19,15 @@ export default function DividendCalculatorPage() {
           Back to tools
         </Link>
         <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
-          Dividend Snowball Simulator
+          RAG Chunking Visualizer
         </h1>
         <p className="body-copy mt-5 max-w-[680px] text-[17px]">
-          Model investment compounding growth, project annual passive dividend cashflow, and visualize the impact of reinvesting distributions over time.
+          Inspect recursive, character, and word chunking partitions in real-time. Compute token overhead inflation and estimate embedding costs across primary models.
         </p>
       </section>
 
       <section className="site-container page-section">
-        <DividendCalculator />
+        <RagVisualizer />
       </section>
     </div>
   );

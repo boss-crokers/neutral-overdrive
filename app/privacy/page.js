@@ -4,6 +4,9 @@ import { ArrowLeft } from "lucide-react";
 export const metadata = {
   title: "Privacy Policy",
   description: "How Neutral Overdrive handles analytics, cookies, newsletter data, and advertising partners.",
+  alternates: {
+    canonical: "/privacy/",
+  },
 };
 
 export default function PrivacyPage() {

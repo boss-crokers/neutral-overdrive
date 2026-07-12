@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import DividendCalculator from "../../components/DividendCalculator";
+import CostProfitabilityModeler from "../../components/CostProfitabilityModeler";
 
 export const metadata = {
-  title: "Dividend Snowball Simulator | Neutral Overdrive",
-  description: "Calculate and visualize long-term portfolio growth, DRIP compounding effects, and annual passive dividend income.",
+  title: "Multi-Dimensional Cost & Profitability Modeler | Neutral Overdrive",
+  description: "Consolidate customized cost analytics, allocate indirect overhead using Activity-Based Costing, and simulate inflation remediation strategies to protect company margins.",
   alternates: {
-    canonical: "/tools/dividend-calculator/",
+    canonical: "/tools/cost-profitability/",
   },
 };
 
-export default function DividendCalculatorPage() {
+export default function CostProfitabilityPage() {
   return (
     <div>
       <section className="site-container border-b border-[var(--border)] py-8 md:py-10">
@@ -19,15 +19,15 @@ export default function DividendCalculatorPage() {
           Back to tools
         </Link>
         <h1 className="display-heading mt-8 max-w-[900px] text-[clamp(42px,6vw,72px)]">
-          Dividend Snowball Simulator
+          Cost & Profitability Modeler
         </h1>
         <p className="body-copy mt-5 max-w-[680px] text-[17px]">
-          Model investment compounding growth, project annual passive dividend cashflow, and visualize the impact of reinvesting distributions over time.
+          Consolidate cost analytics, allocate indirect expenses using driver-based methodologies, and simulate inflation-remediation pricing and operational scenarios.
         </p>
       </section>
 
       <section className="site-container page-section">
-        <DividendCalculator />
+        <CostProfitabilityModeler />
       </section>
     </div>
   );
